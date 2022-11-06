@@ -1,20 +1,26 @@
+import {readFileSync} from 'fs';
 import path from 'path';
-import {Sequelize} from 'sequelize';
 import {Umzug, SequelizeStorage} from 'umzug';
 import logger from './logger';
 import sequelize from './sequelize';
 
 export const umzug = new Umzug({
   migrations: {
-    glob: 'Migrations/*.{js,ts}',
+    glob: 'src/Migrations/*.{js,ts}',
     resolve: ({name, path: migrationFilePath, context}) => {
       const migration = require(migrationFilePath!);
       return {
         name: path.parse(name).name,
-        up: async () => migration.up(context, Sequelize),
-        down: async () => migration.down(context, Sequelize),
+        up: migration.up,
+        down: migration.down,
       };
     },
+  },
+  create: {
+    folder: path.resolve(__dirname, './Migrations'),
+    template: filepath => [
+      [filepath, readFileSync(path.resolve(__dirname, '../templates/migration.template.ts'), 'utf-8')],
+    ],
   },
   context: sequelize.getQueryInterface(),
   storage: new SequelizeStorage({sequelize}),
