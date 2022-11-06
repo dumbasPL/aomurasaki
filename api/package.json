@@ -7,7 +7,7 @@
   "author": "nezu",
   "main": "build/index.js",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "tsoa spec-and-routes && concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "build": "tsoa spec-and-routes && tsc",
     "start": "node build/src/index.js",
     "lint": "eslint . --ext .ts",
