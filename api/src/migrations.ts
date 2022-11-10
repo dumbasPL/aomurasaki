@@ -19,7 +19,7 @@ export const umzug = new Umzug({
   create: {
     folder: path.resolve(__dirname, './Migrations'),
     template: filepath => [
-      [filepath, readFileSync(path.resolve(__dirname, '../templates/migration.template.ts'), 'utf-8')],
+      [filepath, readFileSync(path.resolve(__dirname, './templates/migration.template.ts'), 'utf-8')],
     ],
   },
   context: sequelize.getQueryInterface(),
