@@ -1,18 +1,21 @@
 import express, {json, Request, Response, urlencoded} from 'express';
 import {RegisterRoutes} from '../build/routes';
 import swaggerUi from 'swagger-ui-express';
+import {errorHandler} from './lib/errorHandler';
 
 const app = express();
 
 app.use(urlencoded({extended: true}));
 app.use(json());
 
-app.use('/docs', swaggerUi.serve, async (_req: Request, res: Response) => {
+app.use('/api/v1/docs', swaggerUi.serve, async (_req: Request, res: Response) => {
   return res.send(
     swaggerUi.generateHTML(await import('../build/swagger.json'))
   );
 });
 
 RegisterRoutes(app);
+
+app.use(errorHandler);
 
 export default app;

@@ -5,10 +5,24 @@
   "spec": {
     "outputDirectory": "build",
     "specVersion": 3,
-    "basePath": "/api/v1"
+    "basePath": "/api/v1",
+    "securityDefinitions": {
+      "api_key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      },
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   },
   "routes": {
     "routesDir": "build",
-    "basePath": "/api/v1"
+    "basePath": "/api/v1",
+    "iocModule": "src/lib/tsyringeTsoaIocContainer.ts",
+    "authenticationModule": "src/authentication.ts"
   }
 }

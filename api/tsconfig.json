@@ -6,6 +6,7 @@
     "target": "es2019",
     "module": "commonjs",
     "outDir": "build",
+    "lib": ["ES2022"],
     
     /* Strict Type-Checking Options */
     "strict": true,
@@ -23,9 +24,12 @@
     
     /* Module Resolution Options */
     "moduleResolution": "node",
-    "baseUrl": ".",
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "typeRoots": [
+      "./node_module/@types",
+      "./src/types"
+    ],
 
     /* Experimental Options */
     "experimentalDecorators": true,
@@ -33,5 +37,8 @@
 
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "exclude": [
+    "./src/templates/migration.template.ts"
+  ]
 }

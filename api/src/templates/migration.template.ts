@@ -1,4 +1,4 @@
-import {Migration} from 'src/migrations';
+import {Migration} from '../migrations';
 
 export const up: Migration = async ({context: queryInterface}) => {
   await queryInterface.sequelize.transaction(async transaction => {
