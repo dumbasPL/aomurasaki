@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <main>
+  <main class="text-red-600 font-bold">
     Hello world
   </main>
 </template>
