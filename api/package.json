@@ -1,19 +1,20 @@
 {
-  "name": "project",
-  "version": "1.0.0",
-  "description": "",
-  "keywords": [],
+  "name": "api",
+  "version": "0.1.0",
+  "private": true,
   "license": "MIT",
   "author": "nezu",
   "main": "build/index.js",
   "scripts": {
     "dev": "tsoa spec-and-routes && concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "build": "tsoa spec-and-routes && tsc",
+    "build:api-client": "tsoa spec && openapi-generator-cli generate",
     "start": "node build/src/index.js",
     "lint": "eslint . --ext .ts",
     "migrator": "ts-node src/migrations.ts"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.2",
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.14",
     "@types/jsonwebtoken": "^8.5.9",

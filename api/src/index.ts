@@ -17,7 +17,7 @@ async function main() {
   initMapper();
 
   logger.debug(`Starting express server on port ${PORT}`);
-  app.listen(PORT, '0.0.0.0', () => logger.info(`Server listening on http://0.0.0.0:${PORT}`));
+  app.listen(PORT, () => logger.info(`Server listening on http://localhost:${PORT}`));
 }
 
 main().catch(error => {
