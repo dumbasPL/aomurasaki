@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "api"
+    },
+    {
+      "path": "app"
+    },
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "api/": true,
+      "app/": true,
+    }
+  }
+}
