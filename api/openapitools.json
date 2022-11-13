@@ -9,7 +9,6 @@
         "output": "../packages/api-client",
         "inputSpec": "build/swagger.json",
         "additionalProperties": {
-          "npmName": "api-client",
           "supportsES6": true
         }
       }

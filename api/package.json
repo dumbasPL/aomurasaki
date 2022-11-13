@@ -6,7 +6,7 @@
   "author": "nezu",
   "main": "build/index.js",
   "scripts": {
-    "dev": "tsoa spec-and-routes && concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
+    "dev": "tsoa spec-and-routes && concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\" \"nodemon -w build/swagger.json --signal SIGHUP -x openapi-generator-cli generate\"",
     "build": "tsoa spec-and-routes && tsc",
     "build:api-client": "tsoa spec && openapi-generator-cli generate",
     "start": "node build/src/index.js",
