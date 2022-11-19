@@ -21,7 +21,7 @@ export class AuthController extends Controller {
 
   @Post('login')
   public async login(@Body() requestBody: LoginModel): Promise<LoginResponseModel> {
-    const data = await this.authService.login(requestBody.password, requestBody.password);
+    const data = await this.authService.login(requestBody.username, requestBody.password);
     if (data == null) {
       throw new AuthError('Invalid username or password');
     }

@@ -5,6 +5,8 @@ import logger from './logger';
 import app from './app';
 import {migrateDatabase} from './migrations';
 import {initMapper} from './mapper';
+import {container} from 'tsyringe';
+import UserService from './Services/UserService';
 
 async function main() {
   logger.debug('Starting main');
@@ -15,6 +17,8 @@ async function main() {
   await migrateDatabase();
 
   initMapper();
+
+  await container.resolve(UserService).createInitialUser();
 
   logger.debug(`Starting express server on port ${PORT}`);
   app.listen(PORT, () => logger.info(`Server listening on http://localhost:${PORT}`));

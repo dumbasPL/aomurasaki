@@ -1,15 +1,13 @@
 import {AutoMap} from '@automapper/classes';
 import {randomBytes} from 'crypto';
 import {Optional} from 'sequelize';
-import {BeforeCreate, BeforeUpdate, Column, CreatedAt, DataType, DefaultScope, Model, PrimaryKey, Scopes, Table} from 'sequelize-typescript';
+import {BeforeSave, BeforeValidate, Column, CreatedAt, DataType, DefaultScope, Model, PrimaryKey, Scopes, Table, UpdatedAt} from 'sequelize-typescript';
 
 interface UserAttributes {
   id: number;
   name: string;
   password: string;
   securityStamp: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 interface UserCreationAttributes extends Optional<Omit<UserAttributes, 'securityStamp'>, 'id'> {}
@@ -47,14 +45,20 @@ export default class User extends Model<UserAttributes, UserCreationAttributes> 
   @Column
     createdAt!: Date;
 
-  @CreatedAt
+  @UpdatedAt
   @Column
     updatedAt!: Date;
 
-  @BeforeCreate
-  @BeforeUpdate
-  static updateSecurityStamp(instance: User) {
+  @BeforeSave
+  static beforeSaveHook(instance: User) {
     instance.securityStamp = randomBytes(16).toString('hex');
+  }
+
+  @BeforeValidate
+  static beforeValidateHook(instance: User) {
+    // note: this is a hack to pass validation
+    // this value will be overwritten later in the beforeSaveHook
+    instance.securityStamp ??= '';
   }
 
 }

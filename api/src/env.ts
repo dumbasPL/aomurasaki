@@ -2,6 +2,8 @@ import 'dotenv/config';
 import {randomBytes} from 'crypto';
 import logger from './logger';
 
+// GENERIC
+
 export let PORT = parseInt(process.env.PORT ?? '');
 if (!Number.isInteger(PORT)) {
   PORT = 3000;
@@ -20,3 +22,7 @@ if (!APP_SECRET) {
 }
 
 export const IS_DEV = process.env.NODE_ENV === 'development';
+
+// INITIALIZATION
+
+export const {INITIAL_USERNAME, INITIAL_PASSWORD} = process.env;

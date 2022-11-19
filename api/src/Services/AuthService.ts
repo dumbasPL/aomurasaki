@@ -4,8 +4,6 @@ import User, {UserDto} from '../Entities/User';
 import {APP_SECRET} from '../env';
 import {mapper} from '../mapper';
 
-// const BCRYPT_ROUNDS = 11;
-
 export class AuthService {
 
   async login(username: string, password: string): Promise<{ token: string; user: UserDto; } | null> {
