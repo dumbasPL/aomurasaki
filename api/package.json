@@ -45,6 +45,7 @@
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.25.5",
     "sequelize-typescript": "^2.1.5",
+    "shared-types": "*",
     "sqlite3": "^5.1.2",
     "swagger-ui-express": "^4.6.0",
     "tslog": "^3.3.4",
@@ -55,10 +56,14 @@
   "nx": {
     "targets": {
       "build": {
-        "outputs": ["{projectRoot}/build"]
+        "outputs": [
+          "{projectRoot}/build"
+        ]
       },
       "build:api-client": {
-        "outputs": ["{workspaceRoot}/packages/api-client"]
+        "outputs": [
+          "{workspaceRoot}/packages/api-client"
+        ]
       }
     }
   }

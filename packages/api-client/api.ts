@@ -62,6 +62,19 @@ export interface LoginResponseModel {
 /**
  * 
  * @export
+ * @interface UnauthorizedErrorModel
+ */
+export interface UnauthorizedErrorModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof UnauthorizedErrorModel
+     */
+    'reason': string;
+}
+/**
+ * 
+ * @export
  * @interface UserDto
  */
 export interface UserDto {

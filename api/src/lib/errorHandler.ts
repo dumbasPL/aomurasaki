@@ -2,6 +2,7 @@ import {NextFunction, Request, Response} from 'express';
 import {ValidateError} from 'tsoa';
 import {AuthError} from '../authentication';
 import logger from '../logger';
+import type {UnauthorizedErrorModel} from 'shared-types';
 
 export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction): Response | void {
   if (err instanceof ValidateError) {
@@ -13,9 +14,11 @@ export function errorHandler(err: Error, req: Request, res: Response, next: Next
   }
 
   if (err instanceof AuthError) {
-    return res.status(401).json({
-      reason: err.message,
-    });
+    const response: UnauthorizedErrorModel = {
+      reason: err.message
+    };
+
+    return res.status(401).json(response);
   }
 
   next();
