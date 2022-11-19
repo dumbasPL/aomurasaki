@@ -13,7 +13,7 @@
   "settings": {
     "files.exclude": {
       "api/": true,
-      "app/": true,
-    }
+      // "app/": true,
+    },
   }
 }
