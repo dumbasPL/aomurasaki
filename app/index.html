@@ -5,8 +5,9 @@
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App</title>
+    <style>body {color-scheme: dark}</style>
   </head>
-  <body class="antialiased bg-slate-900 text-slate-400">
+  <body class="antialiased !bg-slate-900 text-slate-400" style="background-color: <%- getColor('slate', '900') %>">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
