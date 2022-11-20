@@ -30,6 +30,7 @@
       "./node_module/@types",
       "./src/types"
     ],
+    "types": ["node", "express"],
 
     /* Experimental Options */
     "experimentalDecorators": true,
