@@ -3,7 +3,7 @@ import axios, {AxiosError} from 'axios';
 import UnauthorizedError from './errors/UnauthorizedError';
 import type {UnauthorizedErrorModel} from 'shared-types';
 import ApiError from './errors/ApiError';
-import { useUserStore } from '@/stores/userStore';
+import {useUserStore} from '@/stores/userStore';
 
 axios.interceptors.response.use(undefined, error => Promise.reject(((): Error => {
   if (error instanceof AxiosError && error.response) {

@@ -1,6 +1,6 @@
-import { useUserApi } from "@/api";
-import type { LoginModel, UserDto } from "api-client";
-import { defineStore } from "pinia";
+import {useUserApi} from '@/api';
+import type {LoginModel, UserDto} from 'api-client';
+import {defineStore} from 'pinia';
 
 interface State {
   token: string | null,

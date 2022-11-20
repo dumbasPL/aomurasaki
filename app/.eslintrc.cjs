@@ -21,5 +21,6 @@ module.exports = {
     'padded-blocks': ['warn', {classes: 'always', switches: 'never', blocks: 'never'}],
     'linebreak-style': 'off',
     'arrow-parens': ['warn', 'as-needed'],
+    'new-cap': 'off',
   },
 };

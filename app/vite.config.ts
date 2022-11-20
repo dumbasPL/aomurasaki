@@ -1,11 +1,11 @@
 import {fileURLToPath, URL} from 'node:url';
 import {defineConfig} from 'vite';
-import {ViteEjsPlugin} from "vite-plugin-ejs";
+import {ViteEjsPlugin} from 'vite-plugin-ejs';
 import vue from '@vitejs/plugin-vue';
-import resolveConfig from 'tailwindcss/resolveConfig'
+import resolveConfig from 'tailwindcss/resolveConfig';
 import fs from 'fs';
 
-const tailwindConfig = resolveConfig(JSON.parse(fs.readFileSync('tsconfig.config.json', 'utf-8')))
+const tailwindConfig = resolveConfig(JSON.parse(fs.readFileSync('tsconfig.config.json', 'utf-8')));
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,8 +16,8 @@ export default defineConfig({
         if (tailwindConfig.theme?.colors) {
           return (tailwindConfig.theme?.colors as Record<string, Record<string, string>>)[name][value];
         }
-        return "#000";
-      }
+        return '#000';
+      },
     }),
   ],
   resolve: {

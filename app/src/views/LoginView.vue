@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import {useUserApi} from '@/api';
 import ButtonInput from '@/components/inputs/ButtonInput.vue';
 import FormWrapper from '@/components/inputs/FormWrapper.vue';
 import TextInput from '@/components/inputs/TextInput.vue';
-import { useUserStore } from '@/stores/userStore';
+import {useUserStore} from '@/stores/userStore';
 import type {LoginModel} from 'api-client';
 import {reactive, ref} from 'vue';
-import { useRouter } from 'vue-router';
+import {useRouter} from 'vue-router';
 import UnauthorizedError from '../api/errors/UnauthorizedError';
 
 const saving = ref(false);

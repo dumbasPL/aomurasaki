@@ -1,4 +1,4 @@
-import { useUserStore } from '@/stores/userStore';
+import {useUserStore} from '@/stores/userStore';
 import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/LoginView.vue';
 import {createRouter, createWebHistory, START_LOCATION} from 'vue-router';
@@ -32,7 +32,7 @@ router.beforeEach(async (to, from) => {
     if (userStore.isLoggedIn) {
       return {name: 'home'};
     }
-  } else if(!userStore.isLoggedIn) {
+  } else if (!userStore.isLoggedIn) {
     // redirect to login page if not logged in already
     return {name: 'login'};
   }
