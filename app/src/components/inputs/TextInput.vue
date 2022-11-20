@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, type PropType } from 'vue';
+import {computed, inject, type PropType} from 'vue';
 
 const savingForm = inject<boolean>('savingForm');
 
@@ -25,9 +25,9 @@ const value = computed({
     return props.modelValue;
   },
   set(value) {
-    emit('update:modelValue', value)
-  }
-})
+    emit('update:modelValue', value);
+  },
+});
 
 </script>
 
@@ -36,10 +36,10 @@ const value = computed({
     <span v-if="props.label" class="first-letter:uppercase block">{{props.label}}</span>
     <div class="group relative" :class="{'mt-1': props.label}">
       <font-awesome-icon v-if="icon" :icon="icon" class="absolute left-3 top-1/2 -mt-2 text-base group-focus-within:text-primary-400"/>
-      <input v-model="value" :type="props.type" :placeholder="placeholder" :autocomplete="autocomplete" 
+      <input v-model="value" :type="props.type" :placeholder="placeholder" :autocomplete="autocomplete"
         :disabled="props.disabled || savingForm" :class="icon ? 'pl-9' : 'pl-3'" v-bind="$attrs"
         class="block w-full rounded-md bg-slate-700 highlight-white/5 border-transparent group-focus-within:outline
-        autofill:!bg-slate-700 autofill:!bg-none outline-primary-500 outline-2 placeholder:text-slate-500 py-2 
+        autofill:!bg-slate-700 autofill:!bg-none outline-primary-500 outline-2 placeholder:text-slate-500 py-2
           disabled:cursor-not-allowed disabled:opacity-75" >
     </div>
   </label>

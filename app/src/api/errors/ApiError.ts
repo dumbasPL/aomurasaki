@@ -5,7 +5,7 @@ export default class ApiError extends Error {
     message: string,
     public status: number,
   ) {
-    super(message)
+    super(message);
   }
 
 }

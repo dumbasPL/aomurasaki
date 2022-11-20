@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useUserApi } from '@/api';
+import {useUserApi} from '@/api';
 import ButtonInput from '@/components/inputs/ButtonInput.vue';
 import FormWrapper from '@/components/inputs/FormWrapper.vue';
 import TextInput from '@/components/inputs/TextInput.vue';
-import type { LoginModel } from 'api-client';
-import { reactive, ref } from 'vue';
+import type {LoginModel} from 'api-client';
+import {reactive, ref} from 'vue';
 import UnauthorizedError from '../api/errors/UnauthorizedError';
 
 const saving = ref(false);
-const userApi = useUserApi();
+const userApi = useUserApi(true);
 
 const inputs = reactive<LoginModel>({
   username: '',
@@ -43,14 +43,14 @@ async function login() {
       </div>
       <div class="rounded-lg p-6 bg-slate-800 highlight-white/5 w-96">
         <FormWrapper @submit="login" :saving="saving">
-          <TextInput v-model="inputs.username" label="username" placeholder="Enter your username" 
+          <TextInput v-model="inputs.username" label="username" placeholder="Enter your username"
             type="text" icon="fa-user" autocomplete="username" autofocus />
-  
-          <TextInput v-model="inputs.password" label="password" placeholder="Enter your password" 
+
+          <TextInput v-model="inputs.password" label="password" placeholder="Enter your password"
             type="password" icon="fa-lock" autocomplete="current-password" />
 
           <span v-if="errorMessage" class="text-red-500">{{errorMessage}}</span>
-  
+
           <ButtonInput class="w-full mt-2" type="submit">Login</ButtonInput>
         </FormWrapper>
       </div>

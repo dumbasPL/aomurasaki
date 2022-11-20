@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, type PropType } from 'vue';
+import {inject, type PropType} from 'vue';
 
 const savingForm = inject<boolean>('savingForm');
 
@@ -15,7 +15,7 @@ const props = defineProps({
 
 const emit = defineEmits<{
   (event: 'click', e: MouseEvent): void
-}>()
+}>();
 </script>
 
 <template>
