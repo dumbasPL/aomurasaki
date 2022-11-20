@@ -5,7 +5,7 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <main class="font-bold">
+  <main class="">
     Welcome: {{userStore.user?.name}}
   </main>
 </template>

@@ -41,6 +41,11 @@ export const useUserStore = defineStore('user', {
       this.setToken(data.token);
       return this.user = data.user;
     },
+    async changePassword(currentPassword: string, newPassword: string) {
+      const userApi = useUserApi();
+      const {data} = await userApi.changePassword({currentPassword, newPassword});
+      this.setToken(data.token);
+    },
     async logout() {
       this.setToken(null);
       this.user = null;

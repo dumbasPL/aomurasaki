@@ -1,13 +1,16 @@
 import {Configuration, DefaultApi, UserApi} from 'api-client';
 import axios, {AxiosError} from 'axios';
 import UnauthorizedError from './errors/UnauthorizedError';
-import type {UnauthorizedErrorModel} from 'shared-types';
+import type {BadRequestErrorModel, UnauthorizedErrorModel} from 'shared-types';
 import ApiError from './errors/ApiError';
+import BadRequestError from './errors/BadRequestError';
 import {useUserStore} from '@/stores/userStore';
 
 axios.interceptors.response.use(undefined, error => Promise.reject(((): Error => {
   if (error instanceof AxiosError && error.response) {
     switch (error.response.status) {
+    case 400:
+      return new BadRequestError((error.response.data as BadRequestErrorModel).message);
     case 401:
       return new UnauthorizedError((error.response.data as UnauthorizedErrorModel).reason);
     default:

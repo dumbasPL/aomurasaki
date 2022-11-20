@@ -1,6 +1,7 @@
 import {useUserStore} from '@/stores/userStore';
 import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/LoginView.vue';
+import UserSettingsView from '@/views/UserSettingsView.vue';
 import {createRouter, createWebHistory, START_LOCATION} from 'vue-router';
 
 const router = createRouter({
@@ -19,7 +20,7 @@ const router = createRouter({
     {
       path: '/user/settings',
       name: 'currentUserSettings',
-      component: LoginView,
+      component: UserSettingsView,
     },
   ],
 });

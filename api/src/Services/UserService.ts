@@ -51,4 +51,11 @@ export default class UserService {
     }
   }
 
+  async setPassword(user: User, password: string): Promise<User> {
+    const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+
+    user.password = passwordHash;
+    return await user.save();
+  }
+
 }
