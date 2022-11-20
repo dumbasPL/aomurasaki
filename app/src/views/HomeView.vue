@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/userStore';
 
+const userStore = useUserStore();
 </script>
 
 <template>
   <main class="text-red-600 font-bold">
-    Hello world
+    Welcome: {{userStore.user?.name}}
   </main>
 </template>

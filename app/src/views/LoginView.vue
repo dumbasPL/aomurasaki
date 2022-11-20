@@ -3,12 +3,15 @@ import {useUserApi} from '@/api';
 import ButtonInput from '@/components/inputs/ButtonInput.vue';
 import FormWrapper from '@/components/inputs/FormWrapper.vue';
 import TextInput from '@/components/inputs/TextInput.vue';
+import { useUserStore } from '@/stores/userStore';
 import type {LoginModel} from 'api-client';
 import {reactive, ref} from 'vue';
+import { useRouter } from 'vue-router';
 import UnauthorizedError from '../api/errors/UnauthorizedError';
 
 const saving = ref(false);
-const userApi = useUserApi(true);
+const userStore = useUserStore();
+const router = useRouter();
 
 const inputs = reactive<LoginModel>({
   username: '',
@@ -20,9 +23,8 @@ const errorMessage = ref<string | null>(null);
 async function login() {
   try {
     errorMessage.value = null;
-    const {data} = await userApi.login(inputs);
-    window.localStorage.setItem('token', data.token);
-    console.log(data.user);
+    await userStore.login(inputs);
+    router.replace({name: 'home'});
   } catch (error) {
     if (error instanceof UnauthorizedError) {
       errorMessage.value = error.reason;
