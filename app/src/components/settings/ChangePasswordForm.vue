@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {useUserStore} from '@/stores/userStore';
 import {reactive, ref} from 'vue';
-import ButtonInput from '../inputs/ButtonInput.vue';
+import FormButton from '../inputs/FormButton.vue';
 import FormWrapper from '../inputs/FormWrapper.vue';
 import TextInput from '../inputs/TextInput.vue';
 
@@ -61,7 +61,7 @@ async function changePassword() {
       <span v-if="errorMessage" class="text-red-500">{{errorMessage}}</span>
       <span v-if="successMessage" class="text-green-500">{{successMessage}}</span>
 
-      <ButtonInput class="w-full mt-2" type="submit">Change password</ButtonInput>
+      <FormButton class="w-full mt-2" type="submit">Change password</FormButton>
     </FormWrapper>
   </div>
 </template>

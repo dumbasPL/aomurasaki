@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ButtonInput from '@/components/inputs/ButtonInput.vue';
+import FormButton from '@/components/inputs/FormButton.vue';
 import FormWrapper from '@/components/inputs/FormWrapper.vue';
 import TextInput from '@/components/inputs/TextInput.vue';
 import {useUserStore} from '@/stores/userStore';
@@ -55,7 +55,7 @@ async function login() {
 
           <span v-if="errorMessage" class="text-red-500">{{errorMessage}}</span>
 
-          <ButtonInput class="w-full mt-2" type="submit">Login</ButtonInput>
+          <FormButton class="w-full mt-2" type="submit">Login</FormButton>
         </FormWrapper>
       </div>
     </div>

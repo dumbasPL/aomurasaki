@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import {inject, type PropType} from 'vue';
+import {RouterLink, type RouteLocationRaw} from 'vue-router';
 
-const savingForm = inject<boolean>('savingForm');
-
-const props = defineProps({
-  type: {
-    type: String as PropType<'submit' | 'reset' | 'button'>,
-    default: 'button',
-  },
-  icon: String,
-  disabled: Boolean,
-  loading: Boolean,
+withDefaults(defineProps<{
+  type?: 'submit' | 'reset' | 'button',
+  icon?: string
+  disabled?: boolean,
+  href?: RouteLocationRaw,
+}>(), {
+  type: 'button',
 });
 
 const emit = defineEmits<{
@@ -19,9 +16,10 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <button :type="props.type" @click="e => emit('click', e)" :disabled="props.disabled || savingForm || loading"
+  <component :is="href ? RouterLink : 'button'" :to="href" :type="type"
+    @click="(e: MouseEvent) => emit('click', e)" :disabled="disabled"
     class="inline-flex items-center justify-center text-center bg-primary-500 highlight-white/10 transition-colors duration-150
       text-white rounded-md px-3 py-2 disabled:opacity-75 disabled:cursor-not-allowed hover:bg-primary-400">
     <slot></slot>
-  </button>
+  </component>
 </template>
