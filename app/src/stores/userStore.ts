@@ -41,5 +41,9 @@ export const useUserStore = defineStore('user', {
       this.setToken(data.token);
       return this.user = data.user;
     },
+    async logout() {
+      this.setToken(null);
+      this.user = null;
+    },
   },
 });

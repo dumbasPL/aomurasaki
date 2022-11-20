@@ -16,6 +16,11 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
     },
+    {
+      path: '/user/settings',
+      name: 'currentUserSettings',
+      component: LoginView,
+    },
   ],
 });
 
