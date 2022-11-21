@@ -10,6 +10,7 @@ export const up: Migration = async ({context: queryInterface}) => {
     name: {
       type: DataType.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataType.STRING,
