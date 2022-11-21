@@ -1,9 +1,11 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import {Permissions} from 'shared-types';
 import {injectable} from 'tsyringe';
 import User, {UserDto} from '../Entities/User';
 import {APP_SECRET} from '../env';
 import {mapper} from '../mapper';
+import {JWTModel} from '../Models/JWTModel';
 import UserService from './UserService';
 
 @injectable()
@@ -13,11 +15,12 @@ export class AuthService {
     private userService: UserService,
   ) {}
 
-  createToken(userId: number, securityStamp: string) {
+  createToken(userId: number, permissions: Permissions, securityStamp: string) {
     return jwt.sign({
-      ss: securityStamp
-    }, APP_SECRET, {
-      subject: userId.toString(),
+      ss: securityStamp,
+      perm: permissions,
+      sub: userId.toString(),
+    } satisfies JWTModel, APP_SECRET, {
       expiresIn: '12h',
     });
   }
@@ -36,7 +39,7 @@ export class AuthService {
       return null;
     }
 
-    const token = this.createToken(user.id, user.securityStamp!);
+    const token = this.createToken(user.id, user.permissions, user.securityStamp!);
 
     return {
       token,
@@ -59,7 +62,7 @@ export class AuthService {
     user = await this.userService.setPassword(user, newPassword);
 
     // generate a new token for the user
-    const token = this.createToken(user.id, user.securityStamp!);
+    const token = this.createToken(user.id, user.permissions, user.securityStamp!);
 
     return token;
   }

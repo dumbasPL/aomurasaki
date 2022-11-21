@@ -1,12 +1,14 @@
 import {AutoMap} from '@automapper/classes';
 import {randomBytes} from 'crypto';
 import {Optional} from 'sequelize';
-import {BeforeSave, BeforeValidate, Column, CreatedAt, DataType, DefaultScope, Model, PrimaryKey, Scopes, Table, UpdatedAt} from 'sequelize-typescript';
+import {BeforeSave, BeforeValidate, Column, CreatedAt, DataType, DefaultScope, Model, PrimaryKey, Scopes, Table, UpdatedAt, Validate} from 'sequelize-typescript';
+import {Permissions} from 'shared-types';
 
 interface UserAttributes {
   id: number;
   name: string;
   password: string;
+  permissions: Permissions;
   securityStamp: string;
 }
 
@@ -15,12 +17,12 @@ interface UserCreationAttributes extends Optional<Omit<UserAttributes, 'security
 @Table
 @DefaultScope(() => ({
   attributes: {
-    exclude: ['password', 'securityStamp'],
+    exclude: ['password', 'securityStamp', 'permissions'],
   },
 }))
 @Scopes(() => ({
   auth: {
-    attributes: ['id', 'name', 'password', 'securityStamp'],
+    attributes: ['id', 'name', 'password', 'permissions', 'securityStamp'],
   },
 }))
 export default class User extends Model<UserAttributes, UserCreationAttributes> {
@@ -36,6 +38,11 @@ export default class User extends Model<UserAttributes, UserCreationAttributes> 
 
   @Column({allowNull: false})
     password?: string;
+
+  @AutoMap()
+  @Validate({min: 0, max: Number.MAX_SAFE_INTEGER})
+  @Column({type: DataType.BIGINT, allowNull: false})
+    permissions!: Permissions;
 
   // 16 bytes hex string
   @Column({type: DataType.STRING(16 * 2), allowNull: false})
@@ -61,6 +68,10 @@ export default class User extends Model<UserAttributes, UserCreationAttributes> 
     instance.securityStamp ??= '';
   }
 
+  hasPermission(perm: Permissions) {
+    return (this.permissions & perm) === perm;
+  }
+
 }
 
 export class UserDto {
@@ -70,5 +81,8 @@ export class UserDto {
 
   @AutoMap()
     name!: string;
+
+  @AutoMap()
+    permissions!: Permissions;
 
 }

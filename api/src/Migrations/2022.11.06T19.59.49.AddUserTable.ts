@@ -15,6 +15,10 @@ export const up: Migration = async ({context: queryInterface}) => {
       type: DataType.STRING,
       allowNull: false,
     },
+    permissions: {
+      type: DataType.BIGINT,
+      allowNull: false,
+    },
     securityStamp: {
       type: DataType.STRING(16 * 2), // 16 hex bytes
       allowNull: false,

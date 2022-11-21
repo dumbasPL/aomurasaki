@@ -94,6 +94,20 @@ export interface LoginResponseModel {
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export const Permissions = {
+    NUMBER_1: 1,
+    NUMBER_2: 2
+} as const;
+
+export type Permissions = typeof Permissions[keyof typeof Permissions];
+
+
+/**
+ * 
+ * @export
  * @interface UnauthorizedErrorModel
  */
 export interface UnauthorizedErrorModel {
@@ -122,6 +136,12 @@ export interface UserDto {
      * @memberof UserDto
      */
     'name': string;
+    /**
+     * 
+     * @type {Permissions}
+     * @memberof UserDto
+     */
+    'permissions': Permissions;
 }
 
 /**

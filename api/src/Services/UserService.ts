@@ -4,15 +4,17 @@ import User from '../Entities/User';
 import {INITIAL_PASSWORD, INITIAL_USERNAME} from '../env';
 import logger from '../logger';
 import {generate as generatePassword} from 'generate-password';
+import {Permissions} from 'shared-types';
 
 export default class UserService {
 
-  async createUser(name: string, password: string): Promise<User> {
+  async createUser(name: string, password: string, permissions: Permissions) {
     const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
-    return await User.create({
+    await User.scope('auth').create({
       name: name,
       password: passwordHash,
+      permissions: permissions,
     });
   }
 
@@ -42,12 +44,12 @@ export default class UserService {
       printPassword = true;
     }
 
-    const user = await this.createUser(username, password);
+    await this.createUser(username, password, Permissions.Active | Permissions.Admin);
     if (printPassword) {
-      logger.info(`Initial user created (ID: ${user.id})\n\tUsername: ${username}\n\tPassword: ${password}`);
+      logger.info(`Initial admin user created\n\tUsername: ${username}\n\tPassword: ${password}`);
       logger.warn('PLEASE CHANGE THE PASSWORD AFTER LOGGING IN !!!');
     } else {
-      logger.info(`Initial user created (ID: ${user.id}, Username: ${username})`);
+      logger.info(`Initial admin user created (Username: ${username})`);
     }
   }
 

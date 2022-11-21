@@ -1,10 +1,31 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import {Permissions} from 'shared-types';
 import User, {UserDto} from './Entities/User';
 import {APP_SECRET} from './env';
+import {AuthError, ForbiddenError} from './lib/errorHandler';
 import {mapper} from './mapper';
+import {isJWTModel} from './Models/JWTModel';
 
-export class AuthError extends Error {}
+type Unpacked<T> = T extends (infer U)[] ? U : T;
+
+const PermissionScopes = {
+  active: Permissions.Active,
+  admin: Permissions.Admin,
+} satisfies Record<Lowercase<keyof typeof Permissions>, Permissions>;
+
+export const PermissionScopeStrings = {
+  active: 'active',
+  admin: 'admin',
+} satisfies {[K in keyof typeof PermissionScopes]: K};
+
+const scopeList = Object.values(PermissionScopeStrings);
+type Scope = Unpacked<typeof scopeList>;
+
+function isValidScopes(scopes?: string[]): scopes is Scope[] {
+  return Array.isArray(scopes) &&
+    scopes.every(scope => (scopeList as string[]).includes(scope));
+}
 
 export async function expressAuthentication(
   request: express.Request,
@@ -33,19 +54,13 @@ export async function expressAuthentication(
 
     const decoded = jwt.verify(token, APP_SECRET);
 
-    if (typeof decoded == 'string') {
+    if (!isJWTModel(decoded)) {
       throw new AuthError('Invalid token body');
     }
 
-    const userId = +(decoded.sub ?? '');
-    const securityStamp = decoded.ss;
-    if (isNaN(userId) || typeof securityStamp !== 'string') {
-      throw new AuthError('Invalid token body');
-    }
-
-    const user = await User.findByPk(userId, {
+    const user = await User.findByPk(+decoded.sub, {
       attributes: {
-        include: ['securityStamp'],
+        include: ['securityStamp', 'permissions'],
       },
     }).catch(err => {
       console.error(err);
@@ -56,8 +71,21 @@ export async function expressAuthentication(
       throw new AuthError('User not found');
     }
 
-    if (user.securityStamp! !== securityStamp) {
+    if (user.securityStamp! !== decoded.ss) {
       throw new AuthError('Invalid security stamp');
+    }
+
+    if (!user.hasPermission(Permissions.Active)) {
+      throw new AuthError('User is disabled');
+    }
+
+    if (isValidScopes(scopes)) {
+      const neededPermissions = scopes.map(scope => PermissionScopes[scope]).reduce((prev, cur) => prev | cur, 0);
+
+      // require at least one permission to be present
+      if ((neededPermissions & decoded.perm) === 0) {
+        throw new ForbiddenError('Missing permissions');
+      }
     }
 
     return mapper.map(user, User, UserDto);

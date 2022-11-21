@@ -1,10 +1,11 @@
 import {NextFunction, Request, Response} from 'express';
 import {ValidateError} from 'tsoa';
-import {AuthError} from '../authentication';
 import logger from '../logger';
-import type {BadRequestErrorModel, UnauthorizedErrorModel} from 'shared-types';
+import type {BadRequestErrorModel, ForbiddenErrorModel, InternalServerErrorModel, UnauthorizedErrorModel} from 'shared-types';
 
+export class AuthError extends Error {}
 export class BadRequestError extends Error {};
+export class ForbiddenError extends Error {};
 
 export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction): Response | void {
   if (err instanceof ValidateError) {
@@ -12,24 +13,37 @@ export function errorHandler(err: Error, req: Request, res: Response, next: Next
     return res.status(422).json({
       message: 'Validation Failed',
       details: err?.fields,
-    });
+    }); // FIXME: satisfies
   }
 
   if (err instanceof BadRequestError) {
-    const response: BadRequestErrorModel = {
+    return res.status(400).json({
       message: err.message,
-    };
-
-    return res.status(400).json(response);
+    } satisfies BadRequestErrorModel);
   }
 
   if (err instanceof AuthError) {
-    const response: UnauthorizedErrorModel = {
+    return res.status(401).json({
       reason: err.message
-    };
-
-    return res.status(401).json(response);
+    } satisfies UnauthorizedErrorModel);
   }
 
-  next();
+  if (err instanceof ForbiddenError) {
+    return res.status(403).json({
+      reason: err.message
+    } satisfies ForbiddenErrorModel);
+  }
+
+  logger.error(err);
+
+  if (err instanceof Error) {
+    return res.status(500).json({
+      message: err.message,
+      stack: err.stack?.split('\n'),
+    } as InternalServerErrorModel);
+  }
+
+  return res.status(500).json({
+    message: 'Internal server error',
+  } as InternalServerErrorModel);
 }

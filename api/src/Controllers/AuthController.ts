@@ -1,13 +1,12 @@
 import {Request as ExRequest} from 'express';
 import {Body, Controller, Get, Post, Request, Response, Route, Security, Tags} from 'tsoa';
 import {injectable} from 'tsyringe';
-import {AuthError} from '../authentication';
 import {UserDto} from '../Entities/User';
 import {LoginModel, LoginResponseModel} from '../Models/LoginModel';
 import type {UnauthorizedErrorModel} from 'shared-types';
 import {AuthService} from '../Services/AuthService';
 import {ChangePasswordModel, ChangePasswordResponseModel} from '../Models/ChangePasswordModel';
-import {BadRequestError} from '../lib/errorHandler';
+import {AuthError, BadRequestError} from '../lib/errorHandler';
 
 @injectable()
 @Route('auth')
