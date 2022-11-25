@@ -8,6 +8,10 @@ import {Permissions} from 'shared-types';
 
 export default class UserService {
 
+  private normalizeUsername(name: string) {
+    return name.toLowerCase();
+  }
+
   async createUser(name: string, password: string, permissions: Permissions) {
     const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
@@ -15,6 +19,12 @@ export default class UserService {
       name: name,
       password: passwordHash,
       permissions: permissions,
+    });
+  }
+
+  async findUserByName(name: string): Promise<User | null> {
+    return await User.findOne({
+      where: {name: this.normalizeUsername(name)},
     });
   }
 
@@ -58,6 +68,10 @@ export default class UserService {
 
     user.password = passwordHash;
     return await user.save();
+  }
+
+  async getUserList(scope?: string): Promise<User[]> {
+    return scope ? await User.scope(scope).findAll() : await User.findAll();
   }
 
 }

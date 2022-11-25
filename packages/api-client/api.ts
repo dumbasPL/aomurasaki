@@ -56,6 +56,31 @@ export interface ChangePasswordResponseModel {
 /**
  * 
  * @export
+ * @interface CreateUserModel
+ */
+export interface CreateUserModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserModel
+     */
+    'username': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserModel
+     */
+    'password': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateUserModel
+     */
+    'permissions': number;
+}
+/**
+ * 
+ * @export
  * @interface LoginModel
  */
 export interface LoginModel {
@@ -466,6 +491,173 @@ export class UserApi extends BaseAPI {
      */
     public login(loginModel: LoginModel, options?: AxiosRequestConfig) {
         return UserApiFp(this.configuration).login(loginModel, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * UsersApi - axios parameter creator
+ * @export
+ */
+export const UsersApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {CreateUserModel} createUserModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUser: async (createUserModel: CreateUserModel, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createUserModel' is not null or undefined
+            assertParamExists('createUser', 'createUserModel', createUserModel)
+            const localVarPath = `/Users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createUserModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        list: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/Users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * UsersApi - functional programming interface
+ * @export
+ */
+export const UsersApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateUserModel} createUserModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createUser(createUserModel: CreateUserModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(createUserModel, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async list(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.list(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * UsersApi - factory interface
+ * @export
+ */
+export const UsersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UsersApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {CreateUserModel} createUserModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUser(createUserModel: CreateUserModel, options?: any): AxiosPromise<void> {
+            return localVarFp.createUser(createUserModel, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        list(options?: any): AxiosPromise<Array<UserDto>> {
+            return localVarFp.list(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * UsersApi - object-oriented interface
+ * @export
+ * @class UsersApi
+ * @extends {BaseAPI}
+ */
+export class UsersApi extends BaseAPI {
+    /**
+     * 
+     * @param {CreateUserModel} createUserModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public createUser(createUserModel: CreateUserModel, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).createUser(createUserModel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public list(options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).list(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

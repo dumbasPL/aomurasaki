@@ -1,7 +1,8 @@
-import {Configuration, DefaultApi, UserApi} from 'api-client';
+import {Configuration, DefaultApi, UserApi, UsersApi} from 'api-client';
 import axios, {AxiosError} from 'axios';
 import UnauthorizedError from './errors/UnauthorizedError';
-import type {BadRequestErrorModel, UnauthorizedErrorModel} from 'shared-types';
+import InternalServerError from './errors/InternalServerError';
+import type {BadRequestErrorModel, UnauthorizedErrorModel, InternalServerErrorModel} from 'shared-types';
 import ApiError from './errors/ApiError';
 import BadRequestError from './errors/BadRequestError';
 import {useUserStore} from '@/stores/userStore';
@@ -13,6 +14,8 @@ axios.interceptors.response.use(undefined, error => Promise.reject(((): Error =>
       return new BadRequestError((error.response.data as BadRequestErrorModel).message);
     case 401:
       return new UnauthorizedError((error.response.data as UnauthorizedErrorModel).reason);
+    case 500:
+      return new InternalServerError((error.response.data as InternalServerErrorModel).message);
     default:
       return new ApiError(error.message, error.response.status);
     }
@@ -25,5 +28,7 @@ const getConfiguration = () => new Configuration({
 });
 
 export const useUserApi = (clean: boolean = false) => new UserApi(clean ? undefined : getConfiguration());
+
+export const useUsersApi = () => new UsersApi(getConfiguration());
 
 export const useDefaultApi = () => new DefaultApi(getConfiguration());

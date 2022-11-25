@@ -2,6 +2,8 @@ import {useUserStore} from '@/stores/userStore';
 import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/LoginView.vue';
 import UserSettingsView from '@/views/UserSettingsView.vue';
+import ManageUsersView from '@/views/admin/ManageUsersView.vue';
+import AddNewUserView from '@/views/admin/AddNewUserView.vue';
 import {createRouter, createWebHistory, START_LOCATION} from 'vue-router';
 
 const router = createRouter({
@@ -18,9 +20,34 @@ const router = createRouter({
       component: LoginView,
     },
     {
-      path: '/user/settings',
-      name: 'currentUserSettings',
-      component: UserSettingsView,
+      path: '/user',
+      children: [
+        {
+          path: 'settings',
+          name: 'currentUserSettings',
+          component: UserSettingsView,
+        },
+      ],
+    },
+    {
+      path: '/admin',
+      children: [
+        {
+          path: 'users',
+          children: [
+            {
+              path: '',
+              name: 'manageUsers',
+              component: ManageUsersView,
+            },
+            {
+              path: 'new',
+              name: 'manageUsersAddNew',
+              component: AddNewUserView,
+            },
+          ],
+        },
+      ],
     },
   ],
 });
