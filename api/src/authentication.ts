@@ -83,7 +83,7 @@ export async function expressAuthentication(
       const neededPermissions = scopes.map(scope => PermissionScopes[scope]).reduce((prev, cur) => prev | cur, 0);
 
       // require at least one permission to be present
-      if ((neededPermissions & decoded.perm) === 0) {
+      if (neededPermissions !== 0 && (neededPermissions & decoded.perm) === 0) {
         throw new ForbiddenError('Missing permissions');
       }
     }

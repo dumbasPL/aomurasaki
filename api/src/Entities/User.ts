@@ -64,6 +64,7 @@ export default class User extends Model<UserAttributes, UserCreationAttributes> 
 
   @BeforeSave
   static beforeSaveHook(instance: User) {
+    instance.name = instance.name.toLowerCase();
     instance.securityStamp = randomBytes(16).toString('hex');
   }
 
