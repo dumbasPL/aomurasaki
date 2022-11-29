@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import {enumObjectReverse} from '@/util/enums';
-import {Permissions} from 'shared-types';
+import {permissionValues, permissions} from '@/util/permissions';
 import {computed, inject} from 'vue';
 import MultiselectInput from './MultiselectInput.vue';
 
@@ -15,9 +14,6 @@ const props = defineProps({
   icon: String,
   disabled: Boolean,
 });
-
-const options = enumObjectReverse(Permissions);
-const permissionValues = Object.keys(options).map(x => +x);
 
 const emit = defineEmits<{
   (event: 'update:modelValue', value: typeof props.modelValue): void
@@ -41,7 +37,7 @@ const value = computed({
       <font-awesome-icon v-if="icon" :icon="icon" :class="{'group-focus-within:text-primary-400': !props.disabled && !savingForm}"
         class="absolute left-3 top-1/2 -mt-2 text-base z-[1] pointer-events-none"/>
       <MultiselectInput v-model="value" mode="tags" :class="{'has-icon': icon}"
-        :options="options" :disabled="props.disabled || savingForm" v-bind="$attrs"/>
+        :options="permissions" :disabled="props.disabled || savingForm" v-bind="$attrs"/>
     </div>
   </label>
 </template>
