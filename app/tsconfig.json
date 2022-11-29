@@ -6,9 +6,13 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "lib": ["ES2019", "DOM"]
+    "lib": ["ES2019", "DOM"],
+    "typeRoots": [
+      "./node_module/@types",
+      "./src/types"
+    ],
+    "resolveJsonModule": true,
   },
-
   "references": [
     {
       "path": "./tsconfig.config.json"

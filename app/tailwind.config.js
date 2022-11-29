@@ -2,6 +2,7 @@
 const {default: flattenColorPalette} = require('tailwindcss/lib/util/flattenColorPalette');
 const colors = require('tailwindcss/colors');
 const svgToDataUri = require('mini-svg-data-uri');
+const screens = require('./src/config/breakpoints.json');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -15,6 +16,10 @@ module.exports = {
         primary: colors.indigo,
       },
     },
+    screens: Object.fromEntries(
+      Object.entries(screens)
+        .map(([name, value]) => [name, `${value}px`]),
+    ),
   },
   plugins: [
     require('@tailwindcss/forms')({strategy: 'class'}),
