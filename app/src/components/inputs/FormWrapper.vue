@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import {computed, provide} from 'vue';
 
-const props = defineProps({
-  saving: Boolean,
-});
+const props = defineProps<{
+  saving?: boolean,
+}>();
 
 const emit = defineEmits<{
   (event: 'submit', e: Event): void,
 }>();
 
-provide('savingForm', computed(() => props.saving));
+provide('savingForm', computed(() => props.saving || false));
 </script>
 
 <template>
