@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {RouterLink, type RouteLocationRaw} from 'vue-router';
+import type {RouteLocationRaw} from 'vue-router';
+import ButtonOrLink from './ButtonOrLink.vue';
 
 withDefaults(defineProps<{
   type?: 'submit' | 'reset' | 'button',
@@ -16,10 +17,9 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <component :is="href ? RouterLink : 'button'" :to="href" :type="type"
-    @click="(e: MouseEvent) => emit('click', e)" :disabled="disabled"
+  <ButtonOrLink :href="href" :type="type" @click="(e: MouseEvent) => emit('click', e)" :disabled="disabled"
     class="inline-flex items-center justify-center text-center bg-primary-500 highlight-white/10 transition-colors duration-150
       text-white rounded-md px-3 py-2 disabled:opacity-75 disabled:cursor-not-allowed hover:bg-primary-400">
     <slot></slot>
-  </component>
+  </ButtonOrLink>
 </template>
