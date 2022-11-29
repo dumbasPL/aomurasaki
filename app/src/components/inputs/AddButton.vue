@@ -12,7 +12,7 @@ const emit = defineEmits<{
 }>();
 </script>
 <template>
-  <ButtonInput :icon="icon" :href="props.href" class="!bg-green-600 !hover:bg-green-500" @click="e => emit('click', e)">
+  <ButtonInput :icon="icon" :href="props.href" class="!bg-green-600 hover:!bg-green-500" @click="e => emit('click', e)">
     <slot>Add new</slot>
   </ButtonInput>
 </template>
