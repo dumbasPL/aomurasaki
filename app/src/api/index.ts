@@ -2,10 +2,11 @@ import {Configuration, DefaultApi, UserApi, UsersApi} from 'api-client';
 import axios, {AxiosError} from 'axios';
 import UnauthorizedError from './errors/UnauthorizedError';
 import InternalServerError from './errors/InternalServerError';
-import type {BadRequestErrorModel, UnauthorizedErrorModel, InternalServerErrorModel} from 'shared-types';
+import type {BadRequestErrorModel, UnauthorizedErrorModel, InternalServerErrorModel, ForbiddenErrorModel} from 'shared-types';
 import ApiError from './errors/ApiError';
 import BadRequestError from './errors/BadRequestError';
 import {useUserStore} from '@/stores/userStore';
+import ForbiddenError from './errors/ForbiddenError';
 
 axios.interceptors.response.use(undefined, error => Promise.reject(((): Error => {
   if (error instanceof AxiosError && error.response) {
@@ -14,6 +15,8 @@ axios.interceptors.response.use(undefined, error => Promise.reject(((): Error =>
       return new BadRequestError((error.response.data as BadRequestErrorModel).message);
     case 401:
       return new UnauthorizedError((error.response.data as UnauthorizedErrorModel).reason);
+    case 403:
+      return new ForbiddenError((error.response.data as ForbiddenErrorModel).reason);
     case 500:
       return new InternalServerError((error.response.data as InternalServerErrorModel).message);
     default:
