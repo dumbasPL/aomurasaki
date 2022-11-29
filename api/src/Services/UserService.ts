@@ -22,6 +22,10 @@ export default class UserService {
     });
   }
 
+  async getUserById(id: number, scope?: string): Promise<User | null> {
+    return await (scope ? User.scope(scope) : User).findByPk(id);
+  }
+
   async getUserByName(name: string): Promise<User | null> {
     return await User.findOne({
       where: {name: this.normalizeUsername(name)},

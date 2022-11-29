@@ -16,8 +16,9 @@ const props = withDefaults(defineProps<{
   modelValue: Model,
   saving?: boolean
   errorMessage?: string,
+  isEdit: boolean,
 }>(), {
-  title: 'Edit user',
+  isEdit: false,
 });
 
 const emit = defineEmits<{
@@ -46,13 +47,15 @@ const inputPermissions = computed({
   <FormWrapper :saving="saving" @submit="e => emit('submit', e)" autocomplete="off">
     <h3 class="text-center text-2xl text-slate-100 mb-3">{{title}}</h3>
 
-    <TextInput v-model="inputUsername" label="Name" icon="fa-user" minlength="3"
-      type="text" autocomplete="off" placeholder="Username for the new user" required />
+    <TextInput v-model="inputUsername" label="Name" icon="fa-user" minlength="3" :readonly="isEdit"
+      type="text" autocomplete="off" :placeholder="isEdit ? undefined : 'Username for the new user'" required />
 
-    <TextInput v-model="inputPassword" label="Password" icon="fa-lock" minlength="6"
-      type="password" autocomplete="new-password" placeholder="Initial password for the new user" required />
+    <TextInput v-model="inputPassword" :label="isEdit ? 'New password' : 'Password'"
+      icon="fa-lock" minlength="6" type="password" :required="!isEdit" autocomplete="new-password"
+      :placeholder="isEdit ? 'Leave empty to keep current password' : 'Initial password for the new user'" />
 
-    <PermissionsPicker v-model="inputPermissions" label="Permissions" placeholder="Initial permissions" icon="fa-shield"/>
+    <PermissionsPicker v-model="inputPermissions" label="Permissions" icon="fa-shield"
+      :placeholder="isEdit ? 'User permissions' : 'Initial permissions'" />
 
     <span v-if="errorMessage" class="text-red-500">{{errorMessage}}</span>
 

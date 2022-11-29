@@ -24,7 +24,8 @@ const permissions = computed(() => decodePermissions(props.user.permissions));
       </div>
     </div>
     <div class="flex items-center mr-2">
-      <IconButton icon="fa-solid fa-user-pen" v-tooltip="'Edit user'" v-show="false"/>
+      <IconButton icon="fa-solid fa-user-pen" v-tooltip="'Edit user'"
+        :href="{name: 'manageUsersEdit', params: {id: user.id}}"/>
     </div>
   </div>
 </template>

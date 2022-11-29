@@ -1,12 +1,13 @@
-import {Body, Controller, Get, Put, Response, Route, Security, Tags} from 'tsoa';
 import {ForbiddenErrorModel, NotFoundErrorModel, UnauthorizedErrorModel} from 'shared-types';
+import {Body, Controller, Get, Put, Response, Route, Security, Tags, Patch} from 'tsoa';
 import {injectable} from 'tsyringe';
 import {PermissionScopeStrings} from '../authentication';
 import {mapper} from '../mapper';
 import UserService from '../Services/UserService';
 import User, {UserDto} from '../Entities/User';
 import {CreateUserModel} from '../Models/CreateUserModel';
-import {BadRequestError} from '../lib/errorHandler';
+import {BadRequestError, NotFoundError} from '../lib/errorHandler';
+import {EditUserModel} from '../Models/EditUserModel';
 
 @injectable()
 @Route('Users')
@@ -28,12 +29,44 @@ export class UsersController extends Controller {
     return mapper.mapArray(users, User, UserDto);
   }
 
+  @Get('{id}')
+  @Response<NotFoundErrorModel>(404, 'Not Found')
+  public async getById(@Patch() id: number) {
+    const user = await this.userService.getUserById(id, 'admin');
+
+    if (user == null) {
+      throw new NotFoundError('User not found');
+    }
+
+    return mapper.map(user, User, UserDto);
+  }
+
   @Put()
   public async createUser(@Body() model: CreateUserModel): Promise<void> {
     if (await this.userService.getUserByName(model.username) != null) {
       throw new BadRequestError('Username already taken');
     }
     await this.userService.createUser(model.username, model.password, model.permissions);
+  }
+
+  @Response<NotFoundErrorModel>(404, 'Not Found')
+  @Put('{id}')
+  public async editUser(@Patch() id: number, @Body() model: EditUserModel) {
+    const user = await this.userService.getUserById(id, 'auth');
+
+    if (user == null) {
+      throw new NotFoundError('User not found');
+    }
+
+    if (model.password != null) {
+      await this.userService.setPassword(user, model.password);
+    }
+
+    if (model.permissions != null) {
+      user.permissions = model.permissions;
+    }
+
+    await this.userService.saveUser(user);
   }
 
 }

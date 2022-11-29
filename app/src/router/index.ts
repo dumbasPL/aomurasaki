@@ -5,6 +5,7 @@ import UserSettingsView from '@/views/UserSettingsView.vue';
 import ManageUsersView from '@/views/admin/ManageUsersView.vue';
 import AddNewUserView from '@/views/admin/AddNewUserView.vue';
 import {createRouter, createWebHistory, START_LOCATION} from 'vue-router';
+import EditUserView from '@/views/admin/EditUserView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,13 @@ const router = createRouter({
               path: 'new',
               name: 'manageUsersAddNew',
               component: AddNewUserView,
+            },
+            {
+              path: 'edit/:id',
+              name: 'manageUsersEdit',
+              props: ({params}) => ({userId: parseInt(params.id as string)}),
+              beforeEnter: ({params}) => isNaN(parseInt(params.id as string)) ? {name: 'manageUsers'} : true,
+              component: EditUserView,
             },
           ],
         },
