@@ -14,6 +14,11 @@ export interface BadRequestErrorModel {
   message: string;
 }
 
+export interface NotFoundErrorModel {
+  message: string;
+}
+
+
 export interface InternalServerErrorModel {
   message: string;
   stack?: string[],

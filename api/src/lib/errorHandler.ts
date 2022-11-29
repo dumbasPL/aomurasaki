@@ -1,11 +1,12 @@
 import {NextFunction, Request, Response} from 'express';
 import {ValidateError} from 'tsoa';
 import logger from '../logger';
-import type {BadRequestErrorModel, ForbiddenErrorModel, InternalServerErrorModel, UnauthorizedErrorModel} from 'shared-types';
+import type {BadRequestErrorModel, ForbiddenErrorModel, InternalServerErrorModel, NotFoundErrorModel, UnauthorizedErrorModel} from 'shared-types';
 
 export class AuthError extends Error {}
 export class BadRequestError extends Error {};
 export class ForbiddenError extends Error {};
+export class NotFoundError extends Error {};
 
 export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction): Response | void {
   if (err instanceof ValidateError) {
@@ -32,6 +33,12 @@ export function errorHandler(err: Error, req: Request, res: Response, next: Next
     return res.status(403).json({
       reason: err.message
     } satisfies ForbiddenErrorModel);
+  }
+
+  if (err instanceof NotFoundError) {
+    return res.status(404).json({
+      message: err.message,
+    } satisfies NotFoundErrorModel);
   }
 
   logger.error(err);
