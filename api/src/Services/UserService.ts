@@ -22,7 +22,7 @@ export default class UserService {
     });
   }
 
-  async findUserByName(name: string): Promise<User | null> {
+  async getUserByName(name: string): Promise<User | null> {
     return await User.findOne({
       where: {name: this.normalizeUsername(name)},
     });
@@ -63,15 +63,18 @@ export default class UserService {
     }
   }
 
-  async setPassword(user: User, password: string): Promise<User> {
+  async setPassword(user: User, password: string): Promise<void> {
     const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
     user.password = passwordHash;
+  }
+
+  async saveUser(user: User): Promise<User> {
     return await user.save();
   }
 
   async getUserList(scope?: string): Promise<User[]> {
-    return scope ? await User.scope(scope).findAll() : await User.findAll();
+    return await (scope ? User.scope(scope) : User).findAll();
   }
 
 }

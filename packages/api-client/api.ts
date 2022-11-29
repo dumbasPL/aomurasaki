@@ -81,6 +81,19 @@ export interface CreateUserModel {
 /**
  * 
  * @export
+ * @interface ForbiddenErrorModel
+ */
+export interface ForbiddenErrorModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof ForbiddenErrorModel
+     */
+    'reason': string;
+}
+/**
+ * 
+ * @export
  * @interface LoginModel
  */
 export interface LoginModel {
@@ -115,6 +128,19 @@ export interface LoginResponseModel {
      * @memberof LoginResponseModel
      */
     'user': UserDto;
+}
+/**
+ * 
+ * @export
+ * @interface NotFoundErrorModel
+ */
+export interface NotFoundErrorModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof NotFoundErrorModel
+     */
+    'message': string;
 }
 /**
  * 

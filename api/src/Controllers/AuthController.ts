@@ -3,7 +3,7 @@ import {Body, Controller, Get, Post, Request, Response, Route, Security, Tags} f
 import {injectable} from 'tsyringe';
 import {UserDto} from '../Entities/User';
 import {LoginModel, LoginResponseModel} from '../Models/LoginModel';
-import type {UnauthorizedErrorModel} from 'shared-types';
+import {UnauthorizedErrorModel} from 'shared-types';
 import {AuthService} from '../Services/AuthService';
 import {ChangePasswordModel, ChangePasswordResponseModel} from '../Models/ChangePasswordModel';
 import {AuthError, BadRequestError} from '../lib/errorHandler';

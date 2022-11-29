@@ -1,7 +1,3 @@
-export interface ForbiddenErrorModel {
-  reason: string;
-}
-
 export interface UnauthorizedErrorModel {
   reason: string;
 }

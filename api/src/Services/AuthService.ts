@@ -4,6 +4,7 @@ import {Permissions} from 'shared-types';
 import {injectable} from 'tsyringe';
 import User, {UserDto} from '../Entities/User';
 import {APP_SECRET} from '../env';
+import {AuthError} from '../lib/errorHandler';
 import {mapper} from '../mapper';
 import {JWTModel} from '../Models/JWTModel';
 import UserService from './UserService';
@@ -39,6 +40,10 @@ export class AuthService {
       return null;
     }
 
+    if (!user.hasPermission(Permissions.Active)) {
+      throw new AuthError('User is disabled');
+    }
+
     const token = this.createToken(user.id, user.permissions, user.securityStamp!);
 
     return {
@@ -59,7 +64,8 @@ export class AuthService {
     }
 
     // update the password
-    user = await this.userService.setPassword(user, newPassword);
+    await this.userService.setPassword(user, newPassword);
+    user = await this.userService.saveUser(user);
 
     // generate a new token for the user
     const token = this.createToken(user.id, user.permissions, user.securityStamp!);

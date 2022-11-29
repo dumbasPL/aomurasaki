@@ -1,5 +1,5 @@
-import {UnauthorizedErrorModel} from 'shared-types';
 import {Body, Controller, Get, Put, Response, Route, Security, Tags} from 'tsoa';
+import {ForbiddenErrorModel, NotFoundErrorModel, UnauthorizedErrorModel} from 'shared-types';
 import {injectable} from 'tsyringe';
 import {PermissionScopeStrings} from '../authentication';
 import {mapper} from '../mapper';
@@ -13,6 +13,7 @@ import {BadRequestError} from '../lib/errorHandler';
 @Tags('Users')
 @Security('jwt', [PermissionScopeStrings.admin])
 @Response<UnauthorizedErrorModel>(401, 'Unauthorized')
+@Response<ForbiddenErrorModel>(403, 'Forbidden')
 export class UsersController extends Controller {
 
   constructor(
@@ -29,7 +30,7 @@ export class UsersController extends Controller {
 
   @Put()
   public async createUser(@Body() model: CreateUserModel): Promise<void> {
-    if (await this.userService.findUserByName(model.username) != null) {
+    if (await this.userService.getUserByName(model.username) != null) {
       throw new BadRequestError('Username already taken');
     }
     await this.userService.createUser(model.username, model.password, model.permissions);
