@@ -8,7 +8,7 @@ export const enumObject = <Enum extends Record<string, number | string>>(e: Enum
 
 export const enumObjectReverse = <Enum extends Record<string, number | string>>(e: Enum) => {
   const obj = enumObject(e);
-  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [v, k])) as { [K in keyof typeof obj]: typeof obj[K] };
+  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [v, k])) as { [K in keyof typeof obj as typeof obj[K]]: K };
 };
 
 export const enumKeys = <Enum extends Record<string, number | string>>(e: Enum) => {
