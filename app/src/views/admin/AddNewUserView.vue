@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {useUsersApi} from '@/api';
+import CenterForm from '@/components/layout/CenterForm.vue';
+import FormBox from '@/components/layout/FormBox.vue';
 import EditUserForm from '@/components/settings/users/EditUserForm.vue';
 import type {CreateUserModel} from 'api-client';
 import {Permissions} from 'shared-types';
@@ -34,12 +36,10 @@ async function addUser() {
 </script>
 
 <template>
-  <div class="w-full flex justify-center">
-    <div class="flex-1 max-w-sm flex flex-col gap-8">
-      <div class="w-full rounded-lg p-6 bg-slate-800 highlight-white/5">
-        <EditUserForm @submit="addUser" title="Add new user"
-          v-model="model" :saving="saving" :error-message="errorMessage" />
-      </div>
-    </div>
-  </div>
+  <CenterForm>
+    <FormBox>
+      <EditUserForm @submit="addUser" title="Add new user"
+        v-model="model" :saving="saving" :error-message="errorMessage" />
+    </FormBox>
+  </CenterForm>
 </template>

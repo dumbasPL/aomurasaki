@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import CenterForm from '@/components/layout/CenterForm.vue';
+import FormBox from '@/components/layout/FormBox.vue';
 import ChangePasswordForm from '@/components/settings/ChangePasswordForm.vue';
 
 
 </script>
 
 <template>
-  <div class="w-full flex justify-center">
-    <div class="flex-1 max-w-sm flex flex-col gap-8">
+  <CenterForm>
+    <FormBox>
       <ChangePasswordForm />
-    </div>
-  </div>
+    </FormBox>
+  </CenterForm>
 </template>
