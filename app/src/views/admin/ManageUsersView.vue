@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import {useUsersApi} from '@/api';
 import AddButton from '@/components/inputs/AddButton.vue';
+import UserCard from '@/components/settings/users/UserCard.vue';
+
+const usersApi = useUsersApi();
+
+const {data: users} = await usersApi.list();
 
 </script>
 
@@ -9,5 +15,9 @@ import AddButton from '@/components/inputs/AddButton.vue';
     <div>
       <AddButton :href="{name: 'manageUsersAddNew'}">Add new user</AddButton>
     </div>
+  </div>
+
+  <div class="grid gap-4 grid-cols-3">
+    <UserCard v-for="user in users" :key="user.id" :user="user" />
   </div>
 </template>
