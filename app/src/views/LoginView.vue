@@ -7,6 +7,7 @@ import type {LoginModel} from 'api-client';
 import {reactive, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import UnauthorizedError from '../api/errors/UnauthorizedError';
+import config from '@/config/index.json';
 
 const saving = ref(false);
 const userStore = useUserStore();
@@ -42,7 +43,7 @@ async function login() {
   <div class="w-full h-full flex items-center justify-center">
     <div class="max-w-sm flex-1 m-3">
       <div class="text-center mb-6">
-        <h1 class="text-2xl text-slate-200">Welcome to {{'Aomurasaki'}}</h1>
+        <h1 class="text-2xl text-slate-200">Welcome to {{config.name}}</h1>
         <h3 class="text-lg text-slate-500">Please log in to continue</h3>
       </div>
       <div class="rounded-lg p-6 bg-slate-800 highlight-white/5">
