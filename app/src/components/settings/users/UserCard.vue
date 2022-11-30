@@ -16,7 +16,7 @@ const permissions = computed(() => decodePermissions(props.user.permissions));
 
 <template>
   <div class="bg-slate-600 rounded-3xl p-5 flex highlight-white/10">
-    <ProfilePicture :name="user.name" />
+    <ProfilePicture :name="user.name" class="flex-shrink-0" />
     <div class="ml-4 flex-grow">
       <div class="text-slate-200 text-2xl">{{user.name}}</div>
       <div class="flex gap-1">

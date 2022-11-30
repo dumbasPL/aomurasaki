@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {RouterLink, type RouteLocationRaw} from 'vue-router';
+import type {RouteLocationRaw} from 'vue-router';
 import ButtonOrLink from '../inputs/ButtonOrLink.vue';
 
 const props = defineProps<{
@@ -14,7 +14,6 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <RouterLink to="" active-class="" />
   <ButtonOrLink :href="props.href" @click="(e: MouseEvent) => emit('click', e)" active-class="bg-slate-600"
     class="block whitespace-nowrap py-2 px-3 rounded-md text-slate-200 text-left
       hover:bg-slate-500 hover:text-white transition-colors duration-150">

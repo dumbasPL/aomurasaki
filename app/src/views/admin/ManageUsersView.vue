@@ -17,7 +17,7 @@ const {data: users} = await usersApi.list();
     </div>
   </div>
 
-  <div class="grid gap-4 grid-cols-3">
+  <div class="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
     <UserCard v-for="user in users" :key="user.id" :user="user" />
   </div>
 </template>
