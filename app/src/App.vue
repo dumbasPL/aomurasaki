@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref, watchEffect} from 'vue';
+import {computed, ref, watch} from 'vue';
 import {RouterView, useRoute} from 'vue-router';
 import {useMq} from 'vue3-mq';
 import PageHeader from './components/header/PageHeader.vue';
@@ -11,10 +11,23 @@ const mq = useMq();
 const userStore = useUserStore();
 const route = useRoute();
 
-const sidebarExpanded = ref(true);
+function wasDesktopSidebarExpanded() {
+  // will default to expanded if the value is null
+  return window.localStorage.getItem('desktopSidebar') !== 'hidden';
+}
+
+const sidebarExpanded = ref(false);
 
 const isMobile = computed(() => mq.mdMinus);
-watchEffect(() => sidebarExpanded.value = !isMobile.value);
+watch(() => isMobile.value, val => {
+  sidebarExpanded.value = val ? false : wasDesktopSidebarExpanded();
+}, {immediate: true});
+
+watch(() => sidebarExpanded.value, val => {
+  if (!isMobile.value) {
+    window.localStorage.setItem('desktopSidebar', val ? 'expanded' : 'hidden');
+  }
+});
 
 </script>
 
