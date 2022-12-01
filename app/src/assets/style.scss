@@ -10,7 +10,7 @@ body {
 
 .v-popper--theme-tooltip {
   .v-popper__inner {
-    @apply bg-gray-700 text-white font-semibold highlight-white/20 rounded-lg px-2.5 py-1.5;
+    @apply bg-gray-700 text-white font-semibold highlight-white/10 rounded-lg px-2.5 py-1.5;
   }
   .v-popper__arrow-outer {
     @apply border-gray-700;
