@@ -7,13 +7,23 @@
       "path": "app"
     },
     {
-      "path": "."
+      "path": ".",
+      "name": "root", // referenced later in typescript.tsdk
     }
   ],
   "settings": {
     "files.exclude": {
       "api/": true,
-      // "app/": true,
+      "app/": true,
     },
+    "tailwindCSS.experimental.configFile": "app/tailwind.config.js",
+    "typescript.tsdk": "root/node_modules/typescript/lib",
+  },
+  "extensions": {
+    "recommendations": [
+      "aaron-bond.better-comments",
+      "editorconfig.editorconfig",
+      "dbaeumer.vscode-eslint"
+    ]
   }
 }
