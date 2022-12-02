@@ -34,11 +34,11 @@ watch(() => sidebarExpanded.value, val => {
 <template>
   <div class="flex flex-col h-full">
     <PageHeader v-if="userStore.isLoggedIn" :key="route.fullPath" v-model="sidebarExpanded" />
-    <div class="flex flex-1">
+    <div class="flex flex-1 h-0">
       <PageSidebar v-if="userStore.isLoggedIn" v-model:expanded="sidebarExpanded" :is-mobile="isMobile" />
       <RouterView v-slot="{Component}">
         <Suspense timeout="200">
-          <main class="flex-grow p-6">
+          <main class="flex-grow p-6 overflow-auto">
             <ErrorCatcher>
               <component :is="Component"/>
             </ErrorCatcher>

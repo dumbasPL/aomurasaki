@@ -26,9 +26,9 @@ watch(() => labelsHidden?.value ?? false, val => {
 </script>
 
 <template>
-  <ButtonOrLink :href="props.href" @click="(e: MouseEvent) => emit('click', e)" active-class="bg-slate-600 highlight-white/5"
-    class="block whitespace-nowrap rounded-md text-slate-200 text-left clear-both
-      hover:bg-slate-500 hover:text-white transition-colors duration-150">
+  <ButtonOrLink :href="props.href" @click="(e: MouseEvent) => emit('click', e)" active-class="bg-slate-600 text-slate-200 highlight-white/5"
+    class="block whitespace-nowrap rounded-md text-slate-400 text-left clear-both
+      hover:bg-slate-500 hover:text-slate-200 transition-colors duration-150">
     <div class="inline-flex w-10 h-10 justify-center items-center float-left"
       v-tooltip.right="{content: text, disabled: !labelsHidden}">
       <font-awesome-icon :icon="props.icon"/>

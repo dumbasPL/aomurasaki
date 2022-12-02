@@ -7,9 +7,9 @@
     <title>App</title>
     <style>body {color-scheme: dark}</style>
   </head>
-  <body class="antialiased !bg-slate-900 text-slate-400 h-full" style="background-color: <%- getColor('slate', '900') %>">
+  <body class="antialiased !bg-slate-900 text-slate-400 h-full overflow-hidden" style="background-color: <%- getColor('slate', '900') %>">
     <div id="app" class="h-full overflow-hidden"></div>
-    <div id="popovers" class="absolute inset-0 bg-red-500/10 z-50 pointer-events-none"></div>
+    <div id="popovers" class="absolute inset-0 z-50 pointer-events-none"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
