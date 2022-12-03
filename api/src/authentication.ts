@@ -52,7 +52,15 @@ export async function expressAuthentication(
       throw new AuthError('Invalid authorization scheme');
     }
 
-    const decoded = jwt.verify(token, APP_SECRET);
+    let decoded;
+    try {
+      decoded = jwt.verify(token, APP_SECRET);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new AuthError('Invalid token: ' + error.message);
+      }
+      throw new AuthError('Invalid token');
+    }
 
     if (!isJWTModel(decoded)) {
       throw new AuthError('Invalid token body');
