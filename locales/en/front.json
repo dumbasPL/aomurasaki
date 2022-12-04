@@ -21,7 +21,9 @@
     "currentPasswordLabel": "Current password",
     "newPasswordLabel": "New password",
     "confirmNewPasswordLabel": "Confirm new password",
-    "changePasswordButton": "Change password"
+    "changePasswordButton": "Change password",
+    "newPasswordsNeedToMatch": "New passwords need to match",
+    "passwordChanged": "Password changed"
   },
   "updateLanguage": {
     "title": "Change language"

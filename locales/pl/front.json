@@ -21,7 +21,9 @@
     "currentPasswordLabel": "Aktualne hasło",
     "newPasswordLabel": "Nowe hasło",
     "confirmNewPasswordLabel": "Potwierdź nowe hasło",
-    "changePasswordButton": "Zmień hasło"
+    "changePasswordButton": "Zmień hasło",
+    "newPasswordsNeedToMatch": "Nowe hasła muszą być zgodne",
+    "passwordChanged": "Hasło zmienione"
   },
   "updateLanguage": {
     "title": "Zmień język"

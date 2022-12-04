@@ -27,7 +27,7 @@ const value = computed({
   <label class="block w-full mb-2">
     <span v-if="props.label" class="first-letter:uppercase block">{{props.label}}</span>
     <div class="group relative" :class="{'mt-1': props.label}">
-      <font-awesome-icon icon="fa-solid fa-language" class="absolute left-3 top-1/2 -mt-2
+      <font-awesome-icon icon="fa-solid fa-globe" class="absolute left-3 top-1/2 -mt-2
         text-base z-[1] pointer-events-none group-focus-within:text-primary-400"/>
       <MultiselectInput v-model="value" mode="single" class="has-icon"
         :options="languages" :canDeselect="false" :canClear="false"/>

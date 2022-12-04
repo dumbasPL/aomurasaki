@@ -38,6 +38,10 @@ import Multiselect from '@vueform/multiselect';
 
 .multiselect-single-label {
   @apply flex items-center h-full max-w-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug pl-3.5 pr-16 box-border rtl:left-auto rtl:right-0 rtl:pl-0 rtl:pr-3.5;
+
+  .has-icon & {
+    @apply pl-9;
+  }
 }
 
 .multiselect-single-label-text {
