@@ -14,7 +14,7 @@ function changeLang(lang: string) {
   <span class="text-sm font-semibold">
     <a v-for="(name, lang) in languages" :key="lang"  @click.prevent="changeLang(lang)"
       class="px-1 py-2 my-2" :href="(i18next.resolvedLanguage == lang) ? undefined : '#'"
-      :class="i18next.resolvedLanguage == lang ? 'text-primary-500 cursor-default' : 'hover:underline'">
+      :class="i18next.resolvedLanguage == lang ? 'cursor-default' : 'text-primary-500 hover:underline'">
       {{name}}
     </a>
   </span>
