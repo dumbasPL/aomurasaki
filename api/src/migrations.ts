@@ -6,7 +6,7 @@ import sequelize from './sequelize';
 
 export const umzug = new Umzug({
   migrations: {
-    glob: 'src/Migrations/*.{js,ts}',
+    glob: __dirname + '/Migrations/*.{js,ts}',
     resolve: ({name, path: migrationFilePath, context}) => {
       const migration = require(migrationFilePath!);
       return {

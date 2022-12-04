@@ -21,7 +21,7 @@ export interface InternalServerErrorModel {
 }
 
 // NOTE: largest value here can not exceed Number.MAX_SAFE_INTEGER
-export enum Permissions {
+export const enum Permissions {
   Active = 1 << 0, // user is active (can login)
   Admin  = 1 << 1, // user is an Administrator
 }
