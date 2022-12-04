@@ -12,11 +12,12 @@ interface Model {
 }
 
 const props = withDefaults(defineProps<{
-  title: string,
+  title?: string | null,
+  buttonText?: string | null,
   modelValue: Model,
   saving?: boolean
   errorMessage?: string,
-  isEdit: boolean,
+  isEdit?: boolean,
 }>(), {
   isEdit: false,
 });
@@ -45,20 +46,20 @@ const inputPermissions = computed({
 
 <template>
   <FormWrapper :saving="saving" @submit="e => emit('submit', e)" autocomplete="off">
-    <h3 class="text-center text-2xl text-slate-100 mb-3">{{title}}</h3>
+    <h3 v-if="title" class="text-center text-2xl text-slate-100 mb-3">{{title}}</h3>
 
-    <TextInput v-model="inputUsername" label="Name" icon="fa-user" minlength="3" :readonly="isEdit"
-      type="text" autocomplete="off" :placeholder="isEdit ? undefined : 'Username for the new user'" required />
+    <TextInput v-model="inputUsername" :label="$t('editUser.nameLabel')" icon="fa-user" minlength="3" :readonly="isEdit"
+      type="text" autocomplete="off" :placeholder="isEdit ? undefined : $t('editUser.usernameForNewUserPlaceholder')" required />
 
-    <TextInput v-model="inputPassword" :label="isEdit ? 'New password' : 'Password'"
+    <TextInput v-model="inputPassword" :label="isEdit ? $t('editUser.update.passwordLabel') : $t('editUser.new.passwordLabel')"
       icon="fa-lock" minlength="6" type="password" :required="!isEdit" autocomplete="new-password"
-      :placeholder="isEdit ? 'Leave empty to keep current password' : 'Initial password for the new user'" />
+      :placeholder="isEdit ? $t('editUser.update.passwordPlaceholder') : $t('editUser.new.passwordPlaceholder')" />
 
-    <PermissionsPicker v-model="inputPermissions" label="Permissions" icon="fa-shield"
-      :placeholder="isEdit ? 'User permissions' : 'Initial permissions'" />
+    <PermissionsPicker v-model="inputPermissions" :label="$t('editUser.permissionsLabel')" icon="fa-shield"
+      :placeholder="isEdit ? $t('editUser.update.permissionsPlaceholder') : $t('editUser.new.permissionsPlaceholder')" />
 
     <span v-if="errorMessage" class="text-red-500">{{errorMessage}}</span>
 
-    <FormButton class="w-full mt-2" type="submit">{{title}}</FormButton>
+    <FormButton class="w-full mt-2" type="submit">{{buttonText ?? 'ERROR'}}</FormButton>
   </FormWrapper>
 </template>

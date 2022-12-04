@@ -5,6 +5,8 @@ import {useMq} from 'vue3-mq';
 import PageHeader from './components/header/PageHeader.vue';
 import PageSidebar from './components/sidebar/PageSidebar.vue';
 import ErrorCatcher from './components/util/ErrorCatcher.vue';
+import PingPreloader from './components/util/PingPreloader.vue';
+import {i18nextPromise} from './i18n';
 import {useUserStore} from './stores/userStore';
 
 const mq = useMq();
@@ -29,6 +31,8 @@ watch(() => sidebarExpanded.value, val => {
   }
 });
 
+// await for translations to load before rendering anything
+await i18nextPromise;
 </script>
 
 <template>
@@ -44,9 +48,7 @@ watch(() => sidebarExpanded.value, val => {
             </ErrorCatcher>
           </main>
           <template #fallback>
-            <div class="grid w-full h-full place-content-center">
-              <span class="animate-ping h-6 w-6 rounded-full bg-primary-400/75"></span>
-            </div>
+            <PingPreloader />
           </template>
         </Suspense>
       </RouterView>

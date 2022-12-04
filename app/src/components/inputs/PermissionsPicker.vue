@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import {permissionValues, permissions} from '@/util/permissions';
+import {useTranslation} from 'i18next-vue';
 import {computed, inject} from 'vue';
 import MultiselectInput from './MultiselectInput.vue';
 
+const {t} = useTranslation();
+
 const savingForm = inject<boolean>('savingForm');
 
-const props = defineProps({
-  modelValue: {
-    type: Number,
-    default: 0,
-  },
-  label: String,
-  icon: String,
-  disabled: Boolean,
+const props = withDefaults(defineProps<{
+  modelValue?: number,
+  label?: string | null,
+  icon?: string,
+  disabled?: boolean,
+}>(), {
+  modelValue: 0,
 });
 
 const emit = defineEmits<{
@@ -28,6 +30,10 @@ const value = computed({
   },
 });
 
+const permissionsTranslated = computed(() => {
+  return Object.fromEntries(Object.entries(permissions).map(([k, v]) => [k, t(`permissions.${v}`)]));
+});
+
 </script>
 
 <template>
@@ -37,7 +43,7 @@ const value = computed({
       <font-awesome-icon v-if="icon" :icon="icon" :class="{'group-focus-within:text-primary-400': !props.disabled && !savingForm}"
         class="absolute left-3 top-1/2 -mt-2 text-base z-[1] pointer-events-none"/>
       <MultiselectInput v-model="value" mode="tags" :class="{'has-icon': icon}"
-        :options="permissions" :disabled="props.disabled || savingForm" v-bind="$attrs"/>
+        :options="permissionsTranslated" :disabled="props.disabled || savingForm" v-bind="$attrs"/>
     </div>
   </label>
 </template>

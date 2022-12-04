@@ -3,7 +3,8 @@ import Multiselect from '@vueform/multiselect';
 </script>
 
 <template>
-  <Multiselect v-bind="$attrs"/>
+  <Multiselect :noOptionsText="$t('multiselect.noOptions')"
+    :noResultsText="$t('multiselect.noResults')" v-bind="$attrs"/>
 </template>
 
 <style lang="scss">
@@ -155,7 +156,7 @@ import Multiselect from '@vueform/multiselect';
   }
 
   &.is-selected {
-    @apply bg-green-600 text-white;
+    @apply bg-slate-600 text-white;
   }
 
   &.is-disabled {
@@ -163,11 +164,11 @@ import Multiselect from '@vueform/multiselect';
   }
 
   &.is-selected.is-pointed {
-    @apply bg-green-600 text-white opacity-90;
+    @apply bg-slate-600 text-white opacity-90;
   }
 
   &.is-selected.is-disabled {
-    @apply text-green-100 bg-green-600 bg-opacity-50 cursor-not-allowed;
+    @apply text-slate-100 bg-slate-600 bg-opacity-50 cursor-not-allowed;
   }
 }
 
@@ -183,7 +184,7 @@ import Multiselect from '@vueform/multiselect';
   }
 
   &.is-selected {
-    @apply text-white bg-green-500;
+    @apply text-white bg-slate-500;
   }
 
   &.is-disabled {
@@ -191,12 +192,12 @@ import Multiselect from '@vueform/multiselect';
   }
 
   &.is-selected.is-pointed {
-    @apply text-white bg-green-500 opacity-90;
+    @apply text-white bg-slate-500 opacity-90;
   }
 
   &.is-selected.is-disabled {
     .multiselect-tags {
-      @apply text-green-100 bg-green-500 bg-opacity-50 cursor-not-allowed;
+      @apply text-slate-100 bg-slate-500 bg-opacity-50 cursor-not-allowed;
     }
   }
 }

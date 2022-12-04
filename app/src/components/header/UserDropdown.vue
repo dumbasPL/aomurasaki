@@ -20,8 +20,8 @@ function logout() {
     <font-awesome-icon icon="fa-solid fa-chevron-down" class="ml-1.5" />
 
     <div class="absolute bg-slate-700 right-0 top-8 rounded-lg p-2 highlight-white/10 flex-col gap-1 hidden group-focus-within:flex">
-      <UserDropdownButton icon="fa-solid fa-gear" :href="{name: 'currentUserSettings'}">Settings</UserDropdownButton>
-      <UserDropdownButton icon="fa-solid fa-arrow-right-from-bracket" @click="logout">Logout</UserDropdownButton>
+      <UserDropdownButton icon="fa-solid fa-gear" :href="{name: 'currentUserSettings'}">{{$t('userDropdown.settings')}}</UserDropdownButton>
+      <UserDropdownButton icon="fa-solid fa-arrow-right-from-bracket" @click="logout">{{$t('userDropdown.logout')}}</UserDropdownButton>
     </div>
   </button>
 </template>

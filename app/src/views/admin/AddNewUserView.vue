@@ -38,8 +38,8 @@ async function addUser() {
 <template>
   <CenterForm>
     <FormBox>
-      <EditUserForm @submit="addUser" title="Add new user"
-        v-model="model" :saving="saving" :error-message="errorMessage" />
+      <EditUserForm @submit="addUser" v-model="model" :saving="saving" :error-message="errorMessage"
+        :title="$t('editUser.addNewUser.title')" :button-text="$t('editUser.addNewUser.button')"/>
     </FormBox>
   </CenterForm>
 </template>

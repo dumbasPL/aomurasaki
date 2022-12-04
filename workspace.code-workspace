@@ -1,6 +1,9 @@
 {
   "folders": [
     {
+      "path": "locales"
+    },
+    {
       "path": "api"
     },
     {
@@ -13,6 +16,7 @@
   ],
   "settings": {
     "files.exclude": {
+      "locales/": true,
       "api/": true,
       "app/": true,
     },

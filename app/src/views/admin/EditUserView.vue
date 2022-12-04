@@ -45,8 +45,8 @@ async function saveUser() {
 <template>
   <CenterForm>
     <FormBox>
-      <EditUserForm @submit="saveUser" title="Edit user" is-edit
-        v-model="model" :saving="saving" :error-message="errorMessage" />
+      <EditUserForm @submit="saveUser" is-edit v-model="model" :saving="saving" :error-message="errorMessage"
+        :title="$t('editUser.editUser.title')" :button-text="$t('editUser.editUser.button')" />
     </FormBox>
   </CenterForm>
 </template>

@@ -20,11 +20,11 @@ const permissions = computed(() => decodePermissions(props.user.permissions));
     <div class="ml-4 flex-grow">
       <div class="text-slate-200 text-2xl">{{user.name}}</div>
       <div class="flex gap-1">
-        <TagBadge v-for="perm in permissions" :key="perm" :text="perm" />
+        <TagBadge v-for="perm in permissions" :key="perm" :text="$t(`permissions.${perm}`)" />
       </div>
     </div>
     <div class="flex items-center mr-2">
-      <IconButton icon="fa-solid fa-user-pen" v-tooltip="'Edit user'"
+      <IconButton icon="fa-solid fa-user-pen" v-tooltip="$t('admin.editUser')"
         :href="{name: 'manageUsersEdit', params: {id: user.id}}"/>
     </div>
   </div>

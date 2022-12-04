@@ -23,7 +23,7 @@ watch(route, () => {
     </div>
     <div>
       <div class="text-xl mb-1 font-semibold leading-none">
-        Unexpected error
+        {{$t('errorMessage.unexpectedError', {defaultValue: 'Unexpected error'})}}
       </div>
       <pre v-if="!errorMessage.stack?.startsWith('Error: ' + errorMessage.message) ?? false">Error: {{errorMessage.message}}</pre>
       <pre>{{errorMessage.stack ?? errorMessage.message}}</pre>

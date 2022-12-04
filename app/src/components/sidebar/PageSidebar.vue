@@ -37,15 +37,12 @@ provide(labelsHiddenKey, labelsHidden);
       <div v-if="(!isMobile || expanded)" :class="(isMobile || expanded) ? 'w-48' : 'w-14'"
         class="bg-slate-800 h-full absolute lg:static top-0 left-0 bottom-0 transition-all ease-in-out duration-300" >
         <nav class="flex flex-col gap-1 px-2 pt-2">
-          <SidebarButton icon="fa-solid fa-house" :href="{name: 'home'}" @click="hideOnMobile" text="Home" />
+          <SidebarButton icon="fa-solid fa-house" :href="{name: 'home'}" @click="hideOnMobile" :text="$t('sidebar.home')" />
           <template v-if="userStore.permissions.Admin">
-            <SidebarButton icon="fa-solid fa-users" :href="{name: 'manageUsers'}" @click="hideOnMobile" text="Users" />
+            <SidebarButton icon="fa-solid fa-users" :href="{name: 'manageUsers'}" @click="hideOnMobile" :text="$t('sidebar.manageUsers')" />
           </template>
         </nav>
       </div>
     </Transition>
   </div>
 </template>
-
-<style scoped lang="scss">
-</style>

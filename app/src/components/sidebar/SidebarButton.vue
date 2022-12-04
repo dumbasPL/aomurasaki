@@ -7,7 +7,7 @@ import {labelsHiddenKey} from './injectionKeys';
 const props = defineProps<{
   icon: string,
   href?: RouteLocationRaw,
-  text: string,
+  text?: string | null,
 }>();
 
 const emit = defineEmits<{
@@ -30,7 +30,7 @@ watch(() => labelsHidden?.value ?? false, val => {
     class="block whitespace-nowrap rounded-md text-slate-400 text-left clear-both
       hover:bg-slate-500 hover:text-slate-200 transition-colors duration-150">
     <div class="inline-flex w-10 h-10 justify-center items-center float-left"
-      v-tooltip.right="{content: text, disabled: !labelsHidden}">
+      v-tooltip.right="{content: text, disabled: !labelsHidden || !text}">
       <font-awesome-icon :icon="props.icon"/>
     </div>
     <div class="transition-opacity duration-300 overflow-hidden h-10 flex items-center"
