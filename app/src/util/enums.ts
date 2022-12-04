@@ -1,4 +1,4 @@
-type EnumKeys<Enum> = Exclude<keyof Enum, number>
+export type EnumKeys<Enum> = Exclude<keyof Enum, number>
 
 export const enumObject = <Enum extends Record<string, number | string>>(e: Enum) => {
   const copy = {...e} as { [K in EnumKeys<Enum>]: Enum[K] };
