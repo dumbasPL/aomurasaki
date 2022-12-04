@@ -32,15 +32,6 @@ export async function expressAuthentication(
   securityName: string,
   scopes?: string[]
 ): Promise<Exclude<express.Request['user'], undefined>> {
-  if (securityName === 'api_key') {
-    const apiKey = request.headers['x-api-key'] || request.query?.api_key;
-    if (!apiKey) {
-      throw new AuthError('Api key missing');
-    }
-
-    throw new AuthError('Not implemented');
-  }
-
   if (securityName === 'jwt') {
     const authHeader = request.headers.authorization;
     if (!authHeader) {

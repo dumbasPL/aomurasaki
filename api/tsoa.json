@@ -7,11 +7,6 @@
     "specVersion": 3,
     "basePath": "/api/v1",
     "securityDefinitions": {
-      "api_key": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "X-API-KEY"
-      },
       "jwt": {
         "type": "http",
         "scheme": "bearer",
