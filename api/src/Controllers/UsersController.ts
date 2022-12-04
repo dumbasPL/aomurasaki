@@ -35,7 +35,7 @@ export class UsersController extends Controller {
     const user = await this.userService.getUserById(id, 'admin');
 
     if (user == null) {
-      throw new NotFoundError('User not found');
+      throw new NotFoundError('User not found', {t: 'errors.notFound.userNotFound'});
     }
 
     return mapper.map(user, User, UserDto);
@@ -44,7 +44,7 @@ export class UsersController extends Controller {
   @Put()
   public async createUser(@Body() model: CreateUserModel): Promise<void> {
     if (await this.userService.getUserByName(model.username) != null) {
-      throw new BadRequestError('Username already taken');
+      throw new BadRequestError('Username already taken', {t: 'errors.badRequest.usernameAlreadyTaken'});
     }
     await this.userService.createUser(model.username, model.password, model.permissions);
   }
@@ -55,7 +55,7 @@ export class UsersController extends Controller {
     const user = await this.userService.getUserById(id, 'auth');
 
     if (user == null) {
-      throw new NotFoundError('User not found');
+      throw new NotFoundError('User not found', {t: 'errors.notFound.userNotFound'});
     }
 
     if (model.password != null) {

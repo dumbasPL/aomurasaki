@@ -4,7 +4,7 @@ import {Permissions} from 'shared-types';
 import {injectable} from 'tsyringe';
 import User, {UserDto} from '../Entities/User';
 import {APP_SECRET} from '../env';
-import {AuthError} from '../lib/errorHandler';
+import {AuthError, BadRequestError, NotFoundError} from '../lib/errorHandler';
 import {mapper} from '../mapper';
 import {JWTModel} from '../Models/JWTModel';
 import UserService from './UserService';
@@ -41,7 +41,7 @@ export class AuthService {
     }
 
     if (!user.hasPermission(Permissions.Active)) {
-      throw new AuthError('User is disabled');
+      throw new AuthError('User is disabled', {t: 'errors.auth.userDisabled'});
     }
 
     const token = this.createToken(user.id, user.permissions, user.securityStamp!);
@@ -55,12 +55,12 @@ export class AuthService {
   async changePassword(userId: number, currentPassword: string, newPassword: string): Promise<string> {
     let user = await User.scope('auth').findByPk(userId);
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundError('User not found', {t: 'errors.notFound.userNotFound'});
     }
 
     // password will be set because we are using the auth scope
     if (!await bcrypt.compare(currentPassword, user.password!)) {
-      throw new Error('Invalid current password');
+      throw new BadRequestError('Invalid current password', {t: 'errors.auth.invalidCurrentPassword'});
     }
 
     // update the password

@@ -1,5 +1,5 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, {JsonWebTokenError} from 'jsonwebtoken';
 import {Permissions} from 'shared-types';
 import User, {UserDto} from './Entities/User';
 import {APP_SECRET} from './env';
@@ -44,26 +44,32 @@ export async function expressAuthentication(
   if (securityName === 'jwt') {
     const authHeader = request.headers.authorization;
     if (!authHeader) {
-      throw new AuthError('Authorization header missing');
+      throw new AuthError('Authorization header missing', {t: 'errors.auth.authorizationHeaderMissing'});
     }
 
     const [scheme, token] = authHeader.split(' ');
     if (scheme != 'Bearer') {
-      throw new AuthError('Invalid authorization scheme');
+      throw new AuthError('Invalid authorization scheme', {t: 'errors.auth.invalidAuthorizationScheme'});
     }
 
     let decoded;
     try {
       decoded = jwt.verify(token, APP_SECRET);
     } catch (error) {
-      if (error instanceof Error) {
-        throw new AuthError('Invalid token: ' + error.message);
+      if (error instanceof JsonWebTokenError) {
+        throw new AuthError(
+          'Invalid token: ' + error.message,
+          {t: [
+            `errors.auth.invalidToken.${error.name}`,
+            'errors.auth.invalidToken.generic',
+          ]}
+        );
       }
-      throw new AuthError('Invalid token');
+      throw new AuthError('Invalid token', {t: 'errors.auth.invalidToken.generic'});
     }
 
     if (!isJWTModel(decoded)) {
-      throw new AuthError('Invalid token body');
+      throw new AuthError('Invalid token body', {t: 'errors.auth.invalidTokenBody'});
     }
 
     const user = await User.findByPk(+decoded.sub, {
@@ -72,19 +78,19 @@ export async function expressAuthentication(
       },
     }).catch(err => {
       console.error(err);
-      throw new AuthError('Unable to find user');
+      throw new AuthError('Unable to find user', {t: 'errors.auth.unableToFindUser'});
     });
 
     if (user == null) {
-      throw new AuthError('User not found');
+      throw new AuthError('User not found', {t: 'errors.auth.userNotFound'});
     }
 
     if (user.securityStamp! !== decoded.ss) {
-      throw new AuthError('Invalid security stamp');
+      throw new AuthError('Invalid security stamp', {t: 'errors.auth.invalidSecurityStamp'});
     }
 
     if (!user.hasPermission(Permissions.Active)) {
-      throw new AuthError('User is disabled');
+      throw new AuthError('User is disabled', {t: 'errors.auth.userDisabled'});
     }
 
     if (isValidScopes(scopes)) {
@@ -92,12 +98,13 @@ export async function expressAuthentication(
 
       // require at least one permission to be present
       if (neededPermissions !== 0 && (neededPermissions & decoded.perm) === 0) {
-        throw new ForbiddenError('Missing permissions');
+        throw new ForbiddenError('Insufficient permissions', {t: 'errors.auth.insufficientPermissions'});
       }
     }
 
     return mapper.map(user, User, UserDto);
   }
 
-  throw new Error('unsupported securityName');
+  // Internal error that should never get hit, don't bother translating
+  throw new Error('Unsupported securityName: ' + securityName);
 }

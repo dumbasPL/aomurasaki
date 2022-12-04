@@ -7,9 +7,12 @@ import {migrateDatabase} from './migrations';
 import {initMapper} from './mapper';
 import {container} from 'tsyringe';
 import UserService from './Services/UserService';
+import {loadI18n} from './i18n';
 
 async function main() {
   logger.debug('Starting main');
+
+  await loadI18n();
 
   await sequelize.authenticate();
   logger.info(`Connected to database ${sequelize.getDatabaseName()} using ${sequelize.getDialect()} v${await sequelize.databaseVersion()}`);

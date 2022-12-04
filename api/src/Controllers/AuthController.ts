@@ -24,7 +24,7 @@ export class AuthController extends Controller {
   public async login(@Body() model: LoginModel): Promise<LoginResponseModel> {
     const data = await this.authService.login(model.username, model.password);
     if (data == null) {
-      throw new AuthError('Invalid username or password');
+      throw new AuthError('Invalid username or password', {t: 'errors.auth.invalidUsernameOrPassword'});
     }
 
     return data;
@@ -34,7 +34,7 @@ export class AuthController extends Controller {
   @Security('jwt')
   public async changePassword(@Body() model: ChangePasswordModel, @Request() req: ExRequest): Promise<ChangePasswordResponseModel> {
     if (model.currentPassword == model.newPassword) {
-      throw new BadRequestError('New password can not be the same as current password');
+      throw new BadRequestError('New password can not be the same as current password', {t: 'errors.badRequest.newPasswordCantBeTheSameAsLast'});
     }
 
     const token = await this.authService.changePassword(req.user!.id, model.currentPassword, model.newPassword);

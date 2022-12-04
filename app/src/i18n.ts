@@ -7,6 +7,7 @@ const isDev = import.meta.env.MODE === 'development';
 
 i18next.on('languageChanged', lang => {
   document.documentElement.setAttribute('lang', lang);
+  document.cookie = `i18next=${lang}; path=/`;
 });
 
 if (isDev) {
