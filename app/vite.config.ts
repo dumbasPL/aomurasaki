@@ -3,9 +3,9 @@ import {defineConfig} from 'vite';
 import {ViteEjsPlugin} from 'vite-plugin-ejs';
 import vue from '@vitejs/plugin-vue';
 import resolveConfig from 'tailwindcss/resolveConfig';
-import fs from 'fs';
 
-const tailwindConfig = resolveConfig(JSON.parse(fs.readFileSync('tsconfig.config.json', 'utf-8')));
+const baseConfig = require('./src/config/index.json');
+const tailwindConfig = resolveConfig(require('./tailwind.config.js'));
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,6 +18,7 @@ export default defineConfig({
         }
         return '#000';
       },
+      pageTitle: baseConfig.name,
     }),
   ],
   resolve: {
