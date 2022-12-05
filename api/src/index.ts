@@ -8,6 +8,8 @@ import {initMapper} from './mapper';
 import {container} from 'tsyringe';
 import UserService from './Services/UserService';
 import {loadI18n} from './i18n';
+import {createServer} from 'http';
+import {formatServerAddress} from './util/ip';
 
 async function main() {
   logger.debug('Starting main');
@@ -23,8 +25,10 @@ async function main() {
 
   await container.resolve(UserService).createInitialUser();
 
+  const server = createServer(app);
+
   logger.debug(`Starting express server on port ${PORT}`);
-  app.listen(PORT, () => logger.info(`Server listening on http://localhost:${PORT}`));
+  server.listen(PORT, () => logger.info(`Server listening on http://${formatServerAddress(server)}`));
 }
 
 main().catch(error => {
