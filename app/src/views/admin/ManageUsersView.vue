@@ -5,7 +5,7 @@ import UserCard from '@/components/settings/users/UserCard.vue';
 
 const usersApi = useUsersApi();
 
-const {data: users} = await usersApi.list();
+const {data: users} = await usersApi.listUsers();
 
 </script>
 

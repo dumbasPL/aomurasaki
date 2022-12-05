@@ -13,7 +13,7 @@ const props = defineProps<{
   userId: number,
 }>();
 
-const {data: userData} = await usersApi.getById(props.userId);
+const {data: userData} = await usersApi.getUserById(props.userId);
 
 const model = ref({
   username: userData.name,

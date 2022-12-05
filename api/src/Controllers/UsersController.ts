@@ -24,14 +24,14 @@ export class UsersController extends Controller {
   }
 
   @Get()
-  public async list(): Promise<UserDto[]> {
+  public async listUsers(): Promise<UserDto[]> {
     const users = await this.userService.getUserList('admin');
     return mapper.mapArray(users, User, UserDto);
   }
 
   @Get('{id}')
   @Response<NotFoundErrorModel>(404, 'Not Found')
-  public async getById(@Patch() id: number) {
+  public async getUserById(@Patch() id: number) {
     const user = await this.userService.getUserById(id, 'admin');
 
     if (user == null) {
