@@ -1,11 +1,11 @@
+import {createRouter, createWebHistory, START_LOCATION} from 'vue-router';
 import {useUserStore} from '@/stores/userStore';
 import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/LoginView.vue';
-import UserSettingsView from '@/views/UserSettingsView.vue';
-import ManageUsersView from '@/views/admin/ManageUsersView.vue';
-import AddNewUserView from '@/views/admin/AddNewUserView.vue';
-import {createRouter, createWebHistory, START_LOCATION} from 'vue-router';
-import EditUserView from '@/views/admin/EditUserView.vue';
+import UserSettingsView from '@/views/admin/user/UserSettingsView.vue';
+import ManageUsersView from '@/views/admin/users/ManageUsersView.vue';
+import AddNewUserView from '@/views/admin/users/AddNewUserView.vue';
+import EditUserView from '@/views/admin/users/EditUserView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

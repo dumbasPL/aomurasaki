@@ -2,7 +2,7 @@
 import LanguagePicker from '@/components/inputs/LanguagePicker.vue';
 import CenterForm from '@/components/layout/CenterForm.vue';
 import FormBox from '@/components/layout/FormBox.vue';
-import ChangePasswordForm from '@/components/settings/ChangePasswordForm.vue';
+import ChangePasswordForm from '@/components/settings/user/ChangePasswordForm.vue';
 
 
 </script>

@@ -2,9 +2,9 @@
 import {useUserStore} from '@/stores/userStore';
 import {useTranslation} from 'i18next-vue';
 import {reactive, ref} from 'vue';
-import FormButton from '../inputs/FormButton.vue';
-import FormWrapper from '../inputs/FormWrapper.vue';
-import TextInput from '../inputs/TextInput.vue';
+import FormButton from '../../inputs/FormButton.vue';
+import FormWrapper from '../../inputs/FormWrapper.vue';
+import TextInput from '../../inputs/TextInput.vue';
 
 const {t} = useTranslation();
 const userStore = useUserStore();
