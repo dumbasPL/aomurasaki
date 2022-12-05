@@ -65,5 +65,8 @@
   "multiselect": {
     "noOptions": "Lista jest pusta",
     "noResults": "Brak wyników"
+  },
+  "errorMessage": {
+    "unexpectedError": "Niespodziewany błąd"
   }
 }

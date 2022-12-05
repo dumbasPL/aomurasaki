@@ -65,5 +65,8 @@
   "multiselect": {
     "noOptions": "The list is empty",
     "noResults": "No results found"
+  },
+  "errorMessage": {
+    "unexpectedError": "Unexpected error"
   }
 }
