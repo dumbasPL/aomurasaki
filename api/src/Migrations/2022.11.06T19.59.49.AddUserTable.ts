@@ -36,6 +36,5 @@ export const up: Migration = async ({context: queryInterface}) => {
 };
 
 export const down: Migration = async ({context: queryInterface}) => {
-  await queryInterface.sequelize.transaction(async transaction => {
-  });
+  await queryInterface.dropTable('Users');
 };
