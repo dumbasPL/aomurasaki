@@ -1,4 +1,5 @@
 import express from 'express';
+import {IncomingMessage} from 'http';
 import jwt, {JsonWebTokenError} from 'jsonwebtoken';
 import {Permissions} from 'shared-types';
 import User, {UserDto} from './Entities/User';
@@ -27,8 +28,67 @@ function isValidScopes(scopes?: string[]): scopes is Scope[] {
     scopes.every(scope => (scopeList as string[]).includes(scope));
 }
 
+export async function authenticateJwt(authorization: string, scopes?: string[]): Promise<UserDto> {
+  const [scheme, token] = authorization.split(' ');
+  if (scheme != 'Bearer') {
+    throw new AuthError('Invalid authorization scheme', {t: 'errors.auth.invalidAuthorizationScheme'});
+  }
+
+  let decoded;
+  try {
+    decoded = jwt.verify(token, APP_SECRET);
+  } catch (error) {
+    if (error instanceof JsonWebTokenError) {
+      throw new AuthError(
+        'Invalid token: ' + error.message,
+        {t: [
+          `errors.auth.invalidToken.${error.name}`,
+          'errors.auth.invalidToken.generic',
+        ]}
+      );
+    }
+    throw new AuthError('Invalid token', {t: 'errors.auth.invalidToken.generic'});
+  }
+
+  if (!isJWTModel(decoded)) {
+    throw new AuthError('Invalid token body', {t: 'errors.auth.invalidTokenBody'});
+  }
+
+  const user = await User.findByPk(+decoded.sub, {
+    attributes: {
+      include: ['securityStamp', 'permissions'],
+    },
+  }).catch(err => {
+    console.error(err);
+    throw new AuthError('Unable to find user', {t: 'errors.auth.unableToFindUser'});
+  });
+
+  if (user == null) {
+    throw new AuthError('User not found', {t: 'errors.auth.userNotFound'});
+  }
+
+  if (user.securityStamp! !== decoded.ss) {
+    throw new AuthError('Invalid security stamp', {t: 'errors.auth.invalidSecurityStamp'});
+  }
+
+  if (!user.hasPermission(Permissions.Active)) {
+    throw new AuthError('User is disabled', {t: 'errors.auth.userDisabled'});
+  }
+
+  if (isValidScopes(scopes)) {
+    const neededPermissions = scopes.map(scope => PermissionScopes[scope]).reduce((prev, cur) => prev | cur, 0);
+
+    // require at least one permission to be present
+    if (neededPermissions !== 0 && (neededPermissions & decoded.perm) === 0) {
+      throw new ForbiddenError('Insufficient permissions', {t: 'errors.auth.insufficientPermissions'});
+    }
+  }
+
+  return mapper.map(user, User, UserDto);
+}
+
 export async function expressAuthentication(
-  request: express.Request,
+  request: express.Request | IncomingMessage,
   securityName: string,
   scopes?: string[]
 ): Promise<Exclude<express.Request['user'], undefined>> {
@@ -38,62 +98,7 @@ export async function expressAuthentication(
       throw new AuthError('Authorization header missing', {t: 'errors.auth.authorizationHeaderMissing'});
     }
 
-    const [scheme, token] = authHeader.split(' ');
-    if (scheme != 'Bearer') {
-      throw new AuthError('Invalid authorization scheme', {t: 'errors.auth.invalidAuthorizationScheme'});
-    }
-
-    let decoded;
-    try {
-      decoded = jwt.verify(token, APP_SECRET);
-    } catch (error) {
-      if (error instanceof JsonWebTokenError) {
-        throw new AuthError(
-          'Invalid token: ' + error.message,
-          {t: [
-            `errors.auth.invalidToken.${error.name}`,
-            'errors.auth.invalidToken.generic',
-          ]}
-        );
-      }
-      throw new AuthError('Invalid token', {t: 'errors.auth.invalidToken.generic'});
-    }
-
-    if (!isJWTModel(decoded)) {
-      throw new AuthError('Invalid token body', {t: 'errors.auth.invalidTokenBody'});
-    }
-
-    const user = await User.findByPk(+decoded.sub, {
-      attributes: {
-        include: ['securityStamp', 'permissions'],
-      },
-    }).catch(err => {
-      console.error(err);
-      throw new AuthError('Unable to find user', {t: 'errors.auth.unableToFindUser'});
-    });
-
-    if (user == null) {
-      throw new AuthError('User not found', {t: 'errors.auth.userNotFound'});
-    }
-
-    if (user.securityStamp! !== decoded.ss) {
-      throw new AuthError('Invalid security stamp', {t: 'errors.auth.invalidSecurityStamp'});
-    }
-
-    if (!user.hasPermission(Permissions.Active)) {
-      throw new AuthError('User is disabled', {t: 'errors.auth.userDisabled'});
-    }
-
-    if (isValidScopes(scopes)) {
-      const neededPermissions = scopes.map(scope => PermissionScopes[scope]).reduce((prev, cur) => prev | cur, 0);
-
-      // require at least one permission to be present
-      if (neededPermissions !== 0 && (neededPermissions & decoded.perm) === 0) {
-        throw new ForbiddenError('Insufficient permissions', {t: 'errors.auth.insufficientPermissions'});
-      }
-    }
-
-    return mapper.map(user, User, UserDto);
+    return await authenticateJwt(authHeader, scopes);
   }
 
   // Internal error that should never get hit, don't bother translating
