@@ -30,9 +30,9 @@ provide(labelsHiddenKey, labelsHidden);
 <template>
   <Transition name="custom-classes" enter-from-class="opacity-0" leave-to-class="opacity-0">
     <div v-if="(isMobile && expanded)" @click="hideOnMobile"
-      class="bg-slate-800/50 w-full h-full absolute inset-0 block transition-opacity ease-in-out duration-300"></div>
+      class="bg-slate-800/50 w-full h-full absolute inset-0 block transition-opacity ease-in-out duration-300 z-20"></div>
   </Transition>
-  <div :class="{'w-0': isMobile}" class="relative">
+  <div :class="{'w-0': isMobile}" class="relative z-20">
     <Transition name="custom-classes" enter-from-class="-translate-x-full" leave-to-class="-translate-x-full">
       <div v-if="(!isMobile || expanded)" :class="(isMobile || expanded) ? 'w-48' : 'w-14'"
         class="bg-slate-800 h-full absolute lg:static top-0 left-0 bottom-0 transition-all ease-in-out duration-300" >
